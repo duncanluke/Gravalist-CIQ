@@ -1,0 +1,9 @@
+# Monkey C build outputs
+bin/
+gen/
+mir/
+*.prg
+*.iq
+
+# Mac OS files
+.DS_Store

@@ -1,0 +1,6 @@
+<properties>
+    <property id="showLink" type="boolean">true</property>
+    <property id="bikeType" type="number">0</property>
+    <property id="tireSize" type="number">1</property>
+    <property id="frameType" type="number">3</property>
+</properties>

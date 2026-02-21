@@ -1,0 +1,8 @@
+<resources>
+    <string id="AppName">Gravalist</string>
+    <string id="AppTitle">Gravel Rocks Counter</string>
+    <string id="AppShortDesc">Transform your ride! Automatically collect 'Gravel Rocks' for every gnarly section, help the community find the smoothest routes, and view real-time leaderboards.</string>
+    <string id="AppLongDesc">Unlock the full potential of your Garmin device. The Gravel Rocks Collector automatically counts 'Gravel Rocks' based on vibrations, speed, and gradient, turning every ride into a motivational exploration. Help the community discover the best terrain. Share your crowd-sourced data to view real-time leaderboards and find the smoothest, most desirable route conditions based on the latest ride data. Connect with friends, compare scores, and contribute to the global gravel map today! Learn more at gravalist.com</string>
+    <string id="WebsiteLink">gravalist.com</string>
+
+</resources>

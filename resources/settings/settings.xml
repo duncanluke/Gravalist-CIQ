@@ -1,0 +1,28 @@
+<settings>
+    <setting propertyKey="@Properties.showLink" title="@Strings.AppName" prompt="@Strings.WebsiteLink">
+        <settingConfig type="alphaNumeric" readonly="true" />
+    </setting>
+    <setting propertyKey="@Properties.bikeType" title="Bike Type">
+        <settingConfig type="list">
+            <listEntry value="0">Gravel (Rigid)</listEntry>
+            <listEntry value="1">MTB (Hardtail)</listEntry>
+            <listEntry value="2">MTB (Full Sus)</listEntry>
+        </settingConfig>
+    </setting>
+    <setting propertyKey="@Properties.tireSize" title="Tire Size">
+        <settingConfig type="list">
+            <listEntry value="0">&lt; 35mm</listEntry>
+            <listEntry value="1">35 - 45mm</listEntry>
+            <listEntry value="2">45 - 55mm</listEntry>
+            <listEntry value="3">2.2" +</listEntry>
+        </settingConfig>
+    </setting>
+    <setting propertyKey="@Properties.frameType" title="Frame Material">
+        <settingConfig type="list">
+            <listEntry value="0">Steel</listEntry>
+            <listEntry value="1">Titanium</listEntry>
+            <listEntry value="2">Carbon</listEntry>
+            <listEntry value="3">Aluminium</listEntry>
+        </settingConfig>
+    </setting>
+</settings>
