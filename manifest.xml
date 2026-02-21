@@ -1,6 +1,6 @@
-<?xml version="1.0"?>
-<iq:manifest xmlns:iq="http://www.garmin.com/connectiq/manifest-2.0" entry="GravelSectorApp">
-    <iq:application id="f3b145a5-c31a-4f51-a9f4-123456789abc" type="datafield" name="@Strings.AppName" launcherIcon="@Drawables.LauncherIcon">
+<?xml version="1.0" encoding="UTF-8"?>
+<iq:manifest xmlns:iq="http://www.garmin.com/xml/connectiq" version="1">
+    <iq:application id="f3b145a5-031a-4f51-a9f4-123456789abc" type="datafield" name="@Strings.AppName" launcherIcon="@Drawables.LauncherIcon" entry="GravelSectorApp" version="0.1.0">
         <iq:products>
             <iq:product id="edge530"/>
             <iq:product id="edge830"/>
@@ -10,9 +10,12 @@
             <iq:product id="fenix7"/>
         </iq:products>
         <iq:permissions>
-            <iq:permission id="FitContributor"/>
-            <iq:permission id="Sensor"/>
+            <iq:uses-permission id="FitContributor"/>
+            <iq:uses-permission id="Sensor"/>
+            <iq:uses-permission id="Communications"/>
         </iq:permissions>
-        <iq:languages/>
+        <iq:languages>
+            <iq:language>eng</iq:language>
+        </iq:languages>
     </iq:application>
 </iq:manifest>

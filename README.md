@@ -9,7 +9,7 @@ The **Gravel Rocks Collector** is a Garmin Connect IQ Data Field that automatica
   - **Bike Type**: Gravel (Rigid), MTB Hardtail, MTB Full Suspension.
   - **Tire Size**: From <35mm up to 2.2"+ wide MTB tires.
   - **Frame Material**: Steel, Titanium, Carbon, and Aluminium.
-- **Scientific Normalization**: Data is normalized so that results are consistent across different bike setups, ensuring fair contributions to the [gravalist.com](https://gravalist.com) global map.
+- **Scientific Normalization**: Data is normalized so that results are consistent across different bike setups, ensuring fair contributions to the [maps.gravalist.com](https://maps.gravalist.com) global map.
 
 ## Project Structure
 - `source/`: MonkeyC source code.

@@ -5,5 +5,11 @@ mir/
 *.prg
 *.iq
 
+# Web build outputs
+web/node_modules
+web/.next
+web/out
+web/.env*
+
 # Mac OS files
 .DS_Store

@@ -1,6 +1,6 @@
 <settings>
-    <setting propertyKey="@Properties.showLink" title="@Strings.AppName" prompt="@Strings.WebsiteLink">
-        <settingConfig type="alphaNumeric" readonly="true" />
+    <setting propertyKey="@Properties.showLink" title="Show Gravalist Link">
+        <settingConfig type="boolean" />
     </setting>
     <setting propertyKey="@Properties.bikeType" title="Bike Type">
         <settingConfig type="list">
@@ -24,5 +24,8 @@
             <listEntry value="2">Carbon</listEntry>
             <listEntry value="3">Aluminium</listEntry>
         </settingConfig>
+    </setting>
+    <setting propertyKey="@Properties.userId" title="Gravalist User ID">
+        <settingConfig type="alphaNumeric" />
     </setting>
 </settings>
