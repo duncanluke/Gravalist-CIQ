@@ -81,7 +81,7 @@ export default function PrivacyPage() {
 
                     <div className="pt-12 border-t border-white/5 flex flex-col items-center gap-6">
                         <p className="text-xs text-slate-500 text-center">
-                            Questions? Contact us at <span className="text-primary">legal@gravalist.com</span>
+                            Questions? Contact us at <span className="text-primary">hello@gravalist.com</span>
                         </p>
                         <a
                             href="/"
