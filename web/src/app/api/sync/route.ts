@@ -3,13 +3,18 @@ import { supabase } from '@/lib/supabase';
 
 export async function POST(request: Request) {
     try {
+        if (!supabase) {
+            return NextResponse.json({ error: 'Database client not available' }, { status: 500 });
+        }
+
         const body = await request.json();
         const { userId, rideId, totalRocks, avgRating, checkpoints, bikeType } = body;
 
         console.log(`Syncing ride ${rideId} for user ${userId}`);
 
-        // 1. Upsert the ride summary
+        // 1. Upsert the ride summary in 'maps' schema
         const { error: rideError } = await supabase
+            .schema('maps')
             .from('rides')
             .upsert({
                 ride_id: rideId,
@@ -17,8 +22,7 @@ export async function POST(request: Request) {
                 total_rocks: totalRocks,
                 avg_rating: avgRating,
                 bike_type: bikeType
-            }, { onConflict: 'ride_id' })
-            .schema('maps');
+            }, { onConflict: 'ride_id' });
 
         if (rideError) {
             console.error('Ride sync error:', rideError);
@@ -39,13 +43,12 @@ export async function POST(request: Request) {
             }));
 
             const { error: cpError } = await supabase
+                .schema('maps')
                 .from('checkpoints')
-                .insert(checkpointData)
-                .schema('maps');
+                .insert(checkpointData);
 
             if (cpError) {
                 console.error('Checkpoints sync error:', cpError);
-                // Note: we don't return 500 here because the ride summary was successfully saved
             }
         }
 
