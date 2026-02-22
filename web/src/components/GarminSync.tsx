@@ -4,8 +4,8 @@ import React from 'react';
 
 export function GarminSync() {
     return (
-        <div className="absolute inset-0 z-50 bg-[#101622] flex items-center justify-center p-4 md:p-6 overflow-y-auto">
-            <div className="max-w-4xl w-full grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center my-auto">
+        <div className="w-full flex-1 flex flex-col items-center justify-center p-6 md:p-12 overflow-y-auto custom-scrollbar">
+            <div className="max-w-4xl w-full grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
 
                 {/* Left: Visual */}
                 <div className="relative flex flex-col items-center justify-center py-8 md:py-0">

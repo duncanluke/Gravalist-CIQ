@@ -169,7 +169,7 @@ export function MapInterface() {
                             initial={{ scale: 0.9, y: 20 }}
                             animate={{ scale: 1, y: 0 }}
                             exit={{ scale: 0.9, y: 20 }}
-                            className="relative w-full max-w-2xl max-h-[90vh] bg-[#101622] rounded-[2.5rem] border border-white/10 shadow-3xl overflow-hidden flex flex-col"
+                            className="relative w-full max-w-2xl min-h-[400px] max-h-[90vh] bg-[#101622] rounded-[2.5rem] border border-white/10 shadow-3xl overflow-hidden flex flex-col mx-4"
                         >
                             <div className="flex justify-between items-center p-6 border-b border-white/5 shrink-0">
                                 <div className="flex items-center gap-3">
