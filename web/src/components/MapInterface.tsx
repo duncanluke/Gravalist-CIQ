@@ -46,8 +46,8 @@ export function MapInterface() {
                             <span className="material-symbols-outlined text-white text-lg md:text-2xl">terrain</span>
                         </div>
                         <div className="flex flex-col">
-                            <h1 className="text-xs md:text-base font-bold tracking-tight text-white leading-tight">Gravalist <span className="text-primary hidden sm:inline">Engine</span></h1>
-                            <span className="text-[8px] md:text-[10px] text-slate-500 font-mono uppercase tracking-widest">Global Terrain Data</span>
+                            <h1 className="text-xs md:text-base font-bold tracking-tight text-white leading-tight">maps.gravalist.com</h1>
+                            <span className="text-[8px] md:text-[10px] text-slate-500 font-mono uppercase tracking-widest">Gravel Conditions</span>
                         </div>
                     </div>
 
