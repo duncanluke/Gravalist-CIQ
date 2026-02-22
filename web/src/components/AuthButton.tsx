@@ -55,7 +55,7 @@ export function AuthButton() {
                         animate={{ opacity: 1, x: 0 }}
                     >
                         <Link
-                            href="/login"
+                            href="/register"
                             className="px-4 py-2 bg-primary text-white text-[10px] font-bold rounded-lg hover:shadow-[0_0_15px_rgba(13,89,242,0.4)] transition-all uppercase tracking-widest"
                         >
                             Log In

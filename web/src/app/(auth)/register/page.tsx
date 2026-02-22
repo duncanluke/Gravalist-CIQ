@@ -58,6 +58,11 @@ export default function RegisterPage() {
                         </div>
                     )}
 
+                    <div className="flex justify-between items-center px-1">
+                        <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Registration</span>
+                        <Link href="/login" className="text-[10px] font-bold text-primary hover:text-white transition-colors uppercase tracking-widest">Sign In Instead</Link>
+                    </div>
+
                     <div className="space-y-2">
                         <label className="text-[10px] font-bold text-primary uppercase tracking-widest ml-1">Full Name</label>
                         <input
@@ -101,9 +106,6 @@ export default function RegisterPage() {
                         {loading ? 'INITIALIZING...' : 'CREATE PROFILE'}
                     </button>
 
-                    <p className="text-center text-xs text-slate-500">
-                        Already a scout? <Link href="/login" className="text-white hover:text-primary transition-colors font-bold">Sign In</Link>
-                    </p>
                 </form>
             </div>
         </div>

@@ -59,6 +59,11 @@ function LoginForm() {
                     </div>
                 )}
 
+                <div className="flex justify-between items-center px-1">
+                    <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Authentication</span>
+                    <Link href="/register" className="text-[10px] font-bold text-primary hover:text-white transition-colors uppercase tracking-widest">Create Profile Instead</Link>
+                </div>
+
                 <div className="space-y-2 text-slate-300">
                     <label className="text-[10px] font-bold text-primary uppercase tracking-widest ml-1">Email Address</label>
                     <input
@@ -93,9 +98,6 @@ function LoginForm() {
                     {loading ? 'AUTHORIZING...' : 'LOG IN'}
                 </button>
 
-                <p className="text-center text-xs text-slate-500">
-                    Don't have a profile? <Link href="/register" className="text-white hover:text-primary transition-colors font-bold">Sign Up</Link>
-                </p>
             </form>
         </div>
     );
