@@ -52,21 +52,6 @@ export function MapInterface() {
                     </div>
 
                     <div className="flex items-center gap-2 md:gap-3 pointer-events-auto">
-                        {/* Desktop Navigation */}
-                        <div className="hidden md:flex items-center gap-1 bg-[#101622]/80 backdrop-blur-xl border border-white/10 p-1 rounded-2xl">
-                            <button
-                                onClick={() => setCurrentView('map')}
-                                className={`px-5 py-2.5 rounded-xl text-[10px] font-bold uppercase tracking-[0.15em] transition-all ${currentView === 'map' ? 'bg-primary text-white shadow-lg' : 'text-slate-500 hover:text-white'}`}
-                            >
-                                Explorer
-                            </button>
-                            <button
-                                onClick={() => setCurrentView('leaderboard')}
-                                className={`px-5 py-2.5 rounded-xl text-[10px] font-bold uppercase tracking-[0.15em] transition-all ${currentView === 'leaderboard' ? 'bg-primary text-white shadow-lg' : 'text-slate-500 hover:text-white'}`}
-                            >
-                                Leaderboard
-                            </button>
-                        </div>
 
                         <div className="bg-[#101622]/80 backdrop-blur-xl border border-white/10 p-1 md:p-1.5 px-3 md:px-4 rounded-2xl shadow-2xl flex items-center gap-4">
                             <button
@@ -144,22 +129,22 @@ export function MapInterface() {
                     )}
                 </AnimatePresence>
 
-                {/* MOBILE NAVIGATION BAR */}
-                <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-[110] md:hidden pointer-events-auto">
+                {/* UNIFIED BOTTOM NAVIGATION BAR */}
+                <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-[110] pointer-events-auto">
                     <div className="bg-[#101622]/90 backdrop-blur-2xl border border-white/10 p-2 rounded-3xl shadow-2xl flex items-center gap-2">
                         <button
                             onClick={() => setCurrentView('map')}
                             className={`flex items-center gap-3 px-6 py-3.5 rounded-2xl transition-all duration-300 ${currentView === 'map' ? 'bg-primary text-white shadow-lg shadow-primary/20 scale-105' : 'text-slate-500 active:bg-white/5'}`}
                         >
-                            <span className="material-symbols-outlined text-xl">explore</span>
-                            <span className={`text-[10px] font-bold uppercase tracking-widest transition-all duration-300 overflow-hidden ${currentView === 'map' ? 'w-auto' : 'w-0 opacity-0'}`}>Maps</span>
+                            <span className="material-symbols-outlined text-xl">map</span>
+                            <span className={`text-[10px] font-bold uppercase tracking-widest transition-all duration-300 overflow-hidden ${currentView === 'map' ? 'w-auto' : 'w-0 opacity-0'}`}>Map</span>
                         </button>
                         <button
                             onClick={() => setCurrentView('leaderboard')}
                             className={`flex items-center gap-3 px-6 py-3.5 rounded-2xl transition-all duration-300 ${currentView === 'leaderboard' ? 'bg-primary text-white shadow-lg shadow-primary/20 scale-105' : 'text-slate-500 active:bg-white/5'}`}
                         >
                             <span className="material-symbols-outlined text-xl">leaderboard</span>
-                            <span className={`text-[10px] font-bold uppercase tracking-widest transition-all duration-300 overflow-hidden ${currentView === 'leaderboard' ? 'w-auto' : 'w-0 opacity-0'}`}>Ranks</span>
+                            <span className={`text-[10px] font-bold uppercase tracking-widest transition-all duration-300 overflow-hidden ${currentView === 'leaderboard' ? 'w-auto' : 'w-0 opacity-0'}`}>Leaderboard</span>
                         </button>
                     </div>
                 </div>
