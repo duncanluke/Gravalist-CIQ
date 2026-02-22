@@ -48,3 +48,26 @@ body {
 .mobile-panel {
   touch-action: pan-y;
 }
+
+/* Leaflet Popup Styling */
+.leaflet-popup-content-wrapper {
+  background: #161e2e !important;
+  color: #94a3b8 !important;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px !important;
+  padding: 0 !important;
+}
+
+.leaflet-popup-content {
+  margin: 0 !important;
+  width: auto !important;
+}
+
+.leaflet-popup-tip {
+  background: #161e2e !important;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.custom-popup p {
+  margin: 0;
+}

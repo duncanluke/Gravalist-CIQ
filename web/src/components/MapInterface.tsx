@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
+import { createClient } from '@/utils/supabase/client';
 import { SectorInfo } from './SectorInfo';
 import { GarminSync } from './GarminSync';
 import { Leaderboard } from './Leaderboard';
@@ -22,12 +23,26 @@ export function MapInterface() {
     const [showSync, setShowSync] = useState(false);
     const [selectedSector, setSelectedSector] = useState<string | null>(null);
     const [isMobile, setIsMobile] = useState(false);
+    const [user, setUser] = useState<any>(null);
+    const supabase = createClient();
 
     useEffect(() => {
         const checkMobile = () => setIsMobile(window.innerWidth < 768);
         checkMobile();
         window.addEventListener('resize', checkMobile);
-        return () => window.removeEventListener('resize', checkMobile);
+
+        // Get initial user
+        supabase.auth.getUser().then(({ data: { user } }) => setUser(user));
+
+        // Listen for auth changes
+        const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+            setUser(session?.user ?? null);
+        });
+
+        return () => {
+            window.removeEventListener('resize', checkMobile);
+            subscription.unsubscribe();
+        };
     }, []);
 
     const handleSectorClick = (id: string) => {
@@ -71,7 +86,7 @@ export function MapInterface() {
 
             {/* Primary Map - Always Rendered but hidden if leaderboard active */}
             <div className={`absolute inset-0 transition-all duration-700 ${currentView === 'leaderboard' ? 'opacity-20 blur-xl scale-110 pointer-events-none' : 'opacity-100 blur-0 scale-100'}`}>
-                <GravelMap onSectorClick={handleSectorClick} />
+                <GravelMap onSectorClick={handleSectorClick} user={user} />
             </div>
 
             {/* Overlay Content */}
