@@ -3,7 +3,6 @@
 import React, { useState, useEffect } from 'react';
 import { SectorInfo } from './SectorInfo';
 import { GarminSync } from './GarminSync';
-import { RewardPopup } from './RewardPopup';
 import { Leaderboard } from './Leaderboard';
 import { AuthButton } from './AuthButton';
 import { Footer } from './Footer';
@@ -209,7 +208,6 @@ export function MapInterface() {
                 )}
             </AnimatePresence>
 
-            <RewardPopup onClose={() => { }} />
 
         </div>
     );
