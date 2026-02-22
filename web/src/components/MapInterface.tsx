@@ -7,6 +7,7 @@ import { GarminSync } from './GarminSync';
 import { Leaderboard } from './Leaderboard';
 import { AuthButton } from './AuthButton';
 import { Footer } from './Footer';
+import { Onboarding } from './Onboarding';
 import { motion, AnimatePresence } from 'framer-motion';
 import dynamic from 'next/dynamic';
 
@@ -24,12 +25,19 @@ export function MapInterface() {
     const [selectedSector, setSelectedSector] = useState<string | null>(null);
     const [isMobile, setIsMobile] = useState(false);
     const [user, setUser] = useState<any>(null);
+    const [showOnboarding, setShowOnboarding] = useState(false);
     const supabase = createClient();
 
     useEffect(() => {
         const checkMobile = () => setIsMobile(window.innerWidth < 768);
         checkMobile();
         window.addEventListener('resize', checkMobile);
+
+        // Check if onboarding has been seen
+        const hasSeenOnboarding = localStorage.getItem('gravalist_onboarding_seen');
+        if (!hasSeenOnboarding) {
+            setShowOnboarding(true);
+        }
 
         // Get initial user
         supabase.auth.getUser().then(({ data: { user } }) => setUser(user));
@@ -44,6 +52,11 @@ export function MapInterface() {
             subscription.unsubscribe();
         };
     }, []);
+
+    const handleOnboardingClose = () => {
+        setShowOnboarding(false);
+        localStorage.setItem('gravalist_onboarding_seen', 'true');
+    };
 
     const handleSectorClick = (id: string) => {
         setSelectedSector(id);
@@ -76,6 +89,13 @@ export function MapInterface() {
                             >
                                 <span className="material-symbols-outlined text-xl md:text-2xl">watch</span>
                                 <span className="absolute -top-1 -right-1 w-2 h-2 bg-emerald-500 rounded-full border-2 border-[#101622]"></span>
+                            </button>
+                            <button
+                                onClick={() => setShowOnboarding(true)}
+                                className="p-2 text-slate-400 hover:text-white transition-all transform hover:scale-110"
+                                title="How it Works"
+                            >
+                                <span className="material-symbols-outlined text-xl md:text-2xl">info</span>
                             </button>
                             <div className="w-px h-6 bg-white/10 hidden sm:block"></div>
                             <AuthButton />
@@ -203,6 +223,28 @@ export function MapInterface() {
                             <div className="flex-1 overflow-y-auto custom-scrollbar">
                                 <GarminSync />
                             </div>
+                        </motion.div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
+            {/* ONBOARDING MODAL */}
+            <AnimatePresence>
+                {showOnboarding && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="fixed inset-0 z-[300] flex items-center justify-center p-4 md:p-6"
+                    >
+                        <div className="absolute inset-0 bg-black/90 backdrop-blur-2xl" onClick={handleOnboardingClose}></div>
+                        <motion.div
+                            initial={{ scale: 0.9, y: 20 }}
+                            animate={{ scale: 1, y: 0 }}
+                            exit={{ scale: 0.9, y: 20 }}
+                            className="relative w-full max-w-lg bg-[#101622] rounded-[3rem] border border-white/10 shadow-3xl overflow-hidden"
+                        >
+                            <Onboarding onClose={handleOnboardingClose} />
                         </motion.div>
                     </motion.div>
                 )}
