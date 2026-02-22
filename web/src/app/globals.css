@@ -1,35 +1,50 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Space Grotesk", sans-serif;
-  
-  --color-primary: #0d59f2; /* Electric Blue */
-  --color-brutal: #ef4444; /* Red */
-  --color-chunky: #f59e0b; /* Amber */
-  --color-champagne: #10b981; /* Green */
-  
-  --color-bg-dark: #101622;
-  --color-bg-panel: #161e2e;
+  --color-primary: #0d59f2;
+  --color-brutal: #ef4444;
+  --color-chunky: #f59e0b;
+  --color-champagne: #10b981;
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-mono: 'Space Grotesk', monospace;
 }
 
-body {
-  background-color: var(--color-bg-dark);
-  color: white;
-  font-family: var(--font-display);
+:root {
+  --app-height: 100dvh;
 }
+
+html,
+body {
+  height: var(--app-height);
+  overflow: hidden;
+  background: #0a0a0c;
+}
+
+/* The original body rule is removed as its properties are either replaced by html, body or no longer needed based on the new theme. */
 
 /* Custom Scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
+/* The original scrollbar rules are replaced by the new custom-scrollbar class */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
 }
-::-webkit-scrollbar-track {
-  background: #101622; 
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
 }
-::-webkit-scrollbar-thumb {
-  background: #334155; 
-  border-radius: 3px;
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
 }
-::-webkit-scrollbar-thumb:hover {
-  background: #475569; 
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.map-container .leaflet-container {
+  background: #0a0a0c !important;
+}
+
+.mobile-panel {
+  touch-action: pan-y;
 }
