@@ -39,7 +39,7 @@ export default function RegisterPage() {
 
     return (
         <div className="min-h-screen bg-[#101622] flex items-center justify-center p-6 bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-primary/10 via-transparent to-transparent">
-            <div className="max-w-md w-full">
+            <div className="max-w-sm w-full">
                 <div className="text-center mb-10">
                     <Link href="/" className="inline-flex items-center gap-3 mb-6">
                         <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center shadow-[0_0_20px_rgba(13,89,242,0.4)]">
@@ -47,7 +47,7 @@ export default function RegisterPage() {
                         </div>
                         <span className="text-2xl font-bold text-white tracking-tighter">GRAVALIST</span>
                     </Link>
-                    <h1 className="text-3xl font-bold text-white mb-2">Create Scout Profile</h1>
+                    <h1 className="text-3xl font-bold text-white mb-2">Create Profile</h1>
                     <p className="text-slate-500">Join the collective to validate premium sectors.</p>
                 </div>
 
@@ -71,7 +71,6 @@ export default function RegisterPage() {
                             value={name}
                             onChange={(e) => setName(e.target.value)}
                             className="w-full bg-black/20 border border-white/10 rounded-xl py-3 px-4 text-white focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all placeholder:text-slate-600"
-                            placeholder="Alex Honnold"
                         />
                     </div>
 
@@ -83,7 +82,6 @@ export default function RegisterPage() {
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             className="w-full bg-black/20 border border-white/10 rounded-xl py-3 px-4 text-white focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all placeholder:text-slate-600"
-                            placeholder="alex@gravalist.com"
                         />
                     </div>
 
