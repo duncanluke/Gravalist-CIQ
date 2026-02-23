@@ -56,9 +56,9 @@ export function AuthButton() {
                     >
                         <Link
                             href="/register"
-                            className="px-4 py-2 bg-primary text-white text-[10px] font-bold rounded-lg hover:shadow-[0_0_15px_rgba(13,89,242,0.4)] transition-all uppercase tracking-widest"
+                            className="px-3 md:px-4 py-1.5 md:py-2 bg-primary text-white text-[9px] md:text-[10px] font-bold rounded-lg hover:shadow-[0_0_15px_rgba(13,89,242,0.4)] transition-all uppercase tracking-widest whitespace-nowrap"
                         >
-                            Log In
+                            Create Profile
                         </Link>
                     </motion.div>
                 )}

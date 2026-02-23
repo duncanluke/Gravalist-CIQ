@@ -81,23 +81,23 @@ export function MapInterface() {
 
                     <div className="flex items-center gap-2 md:gap-3 pointer-events-auto">
 
-                        <div className="bg-[#101622]/80 backdrop-blur-xl border border-white/10 p-1 md:p-1.5 px-3 md:px-4 rounded-2xl shadow-2xl flex items-center gap-4">
+                        <div className="bg-[#101622]/80 backdrop-blur-xl border border-white/10 p-1 md:p-1.5 px-2 md:px-4 rounded-2xl shadow-2xl flex items-center gap-2 md:gap-4">
                             <button
                                 onClick={() => setShowSync(true)}
-                                className="group relative p-2 text-slate-400 hover:text-white transition-all transform hover:rotate-12"
+                                className="group relative p-1.5 md:p-2 text-slate-400 hover:text-white transition-all transform hover:rotate-12"
                                 title="Sync Garmin"
                             >
-                                <span className="material-symbols-outlined text-xl md:text-2xl">watch</span>
-                                <span className="absolute -top-1 -right-1 w-2 h-2 bg-emerald-500 rounded-full border-2 border-[#101622]"></span>
+                                <span className="material-symbols-outlined text-lg md:text-2xl">watch</span>
+                                <span className="absolute -top-1 -right-1 w-1.5 h-1.5 md:w-2 md:h-2 bg-emerald-500 rounded-full border-2 border-[#101622]"></span>
                             </button>
                             <button
                                 onClick={() => setShowOnboarding(true)}
-                                className="p-2 text-slate-400 hover:text-white transition-all transform hover:scale-110"
+                                className="p-1.5 md:p-2 text-slate-400 hover:text-white transition-all transform hover:scale-110"
                                 title="How it Works"
                             >
-                                <span className="material-symbols-outlined text-xl md:text-2xl">info</span>
+                                <span className="material-symbols-outlined text-lg md:text-2xl">info</span>
                             </button>
-                            <div className="w-px h-6 bg-white/10 hidden sm:block"></div>
+                            <div className="w-px h-4 md:h-6 bg-white/10 hidden sm:block"></div>
                             <AuthButton />
                         </div>
                     </div>
@@ -165,27 +165,27 @@ export function MapInterface() {
                 </AnimatePresence>
 
                 {/* UNIFIED BOTTOM NAVIGATION BAR */}
-                <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-[110] pointer-events-auto">
-                    <div className="bg-[#101622]/90 backdrop-blur-2xl border border-white/10 p-2 rounded-3xl shadow-2xl flex items-center gap-2">
+                <div className="fixed bottom-12 md:bottom-8 left-1/2 -translate-x-1/2 z-[110] pointer-events-auto">
+                    <div className="bg-[#101622]/90 backdrop-blur-2xl border border-white/10 p-1.5 md:p-2 rounded-3xl shadow-2xl flex items-center gap-1 md:gap-2">
                         <button
                             onClick={() => setCurrentView('map')}
-                            className={`flex items-center gap-3 px-6 py-3.5 rounded-2xl transition-all duration-300 ${currentView === 'map' ? 'bg-primary text-white shadow-lg shadow-primary/20 scale-105' : 'text-slate-500 active:bg-white/5'}`}
+                            className={`flex items-center gap-2 md:gap-3 px-4 md:px-6 py-2 md:py-3.5 rounded-2xl transition-all duration-300 ${currentView === 'map' ? 'bg-primary text-white shadow-lg shadow-primary/20 scale-105' : 'text-slate-500 active:bg-white/5'}`}
                         >
-                            <span className="material-symbols-outlined text-xl">map</span>
-                            <span className={`text-[10px] font-bold uppercase tracking-widest transition-all duration-300 overflow-hidden ${currentView === 'map' ? 'w-auto' : 'w-0 opacity-0'}`}>Map</span>
+                            <span className="material-symbols-outlined text-base md:text-xl">map</span>
+                            <span className={`text-[9px] md:text-[10px] font-bold uppercase tracking-widest transition-all duration-300 overflow-hidden ${currentView === 'map' ? 'w-auto' : 'w-0 opacity-0'}`}>Map</span>
                         </button>
                         <button
                             onClick={() => setCurrentView('leaderboard')}
-                            className={`flex items-center gap-3 px-6 py-3.5 rounded-2xl transition-all duration-300 ${currentView === 'leaderboard' ? 'bg-primary text-white shadow-lg shadow-primary/20 scale-105' : 'text-slate-500 active:bg-white/5'}`}
+                            className={`flex items-center gap-2 md:gap-3 px-4 md:px-6 py-2 md:py-3.5 rounded-2xl transition-all duration-300 ${currentView === 'leaderboard' ? 'bg-primary text-white shadow-lg shadow-primary/20 scale-105' : 'text-slate-500 active:bg-white/5'}`}
                         >
-                            <span className="material-symbols-outlined text-xl">leaderboard</span>
-                            <span className={`text-[10px] font-bold uppercase tracking-widest transition-all duration-300 overflow-hidden ${currentView === 'leaderboard' ? 'w-auto' : 'w-0 opacity-0'}`}>Leaderboard</span>
+                            <span className="material-symbols-outlined text-base md:text-xl">leaderboard</span>
+                            <span className={`text-[9px] md:text-[10px] font-bold uppercase tracking-widest transition-all duration-300 overflow-hidden ${currentView === 'leaderboard' ? 'w-auto' : 'w-0 opacity-0'}`}>Leaderboard</span>
                         </button>
                     </div>
                 </div>
 
                 {/* DESKTOP LEGEND / FOOTER */}
-                <div className="absolute inset-x-0 bottom-0 pointer-events-none hidden md:block">
+                <div className="absolute inset-x-0 bottom-0 pointer-events-none block">
                     <Footer />
                 </div>
             </div>
