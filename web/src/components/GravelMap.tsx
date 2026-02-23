@@ -37,43 +37,61 @@ interface CommunityNote {
     position: [number, number];
 }
 
-// Generate some procedural gravel roads around the center
-const generateSectors = (count: number): GravelSector[] => {
-    const sectors: GravelSector[] = [];
-    for (let i = 0; i < count; i++) {
-        const startLat = CENTER[0] + (Math.random() - 0.5) * 0.4;
-        const startLng = CENTER[1] + (Math.random() - 0.5) * 0.4;
-        const positions: [number, number][] = [[startLat, startLng]];
-        let currentLat = startLat;
-        let currentLng = startLng;
-        const segments = 5 + Math.floor(Math.random() * 10);
-        for (let j = 0; j < segments; j++) {
-            currentLat += (Math.random() - 0.5) * 0.02;
-            currentLng += (Math.random() - 0.5) * 0.02;
-            positions.push([currentLat, currentLng]);
-        }
-        const type = Math.random();
-        let status: GravelSector['status'] = 'Champagne';
-        let color = '#10b981';
-        if (type < 0.3) {
-            status = 'Brutal';
-            color = '#ef4444';
-        } else if (type < 0.6) {
-            status = 'Chunky';
-            color = '#f59e0b';
-        }
-        sectors.push({
-            id: `sector-${i}`,
-            name: `Sector ${i + 1}`,
-            color,
-            positions,
-            status
-        });
+// Hardcoded realistic road sectors for the Cederberg region to snap to the gray dotted Overpass overlay
+const INITIAL_SECTORS: GravelSector[] = [
+    {
+        id: 'sector-1',
+        name: 'Groot Dam Track',
+        color: '#10b981', // green / champagne
+        status: 'Champagne',
+        positions: [
+            [-32.441, 19.167],
+            [-32.440, 19.161],
+            [-32.433, 19.155],
+            [-32.428, 19.156],
+            [-32.424, 19.157],
+            [-32.417, 19.156]
+        ]
+    },
+    {
+        id: 'sector-2',
+        name: 'River Crossing Approach',
+        color: '#f59e0b', // orange / chunky
+        status: 'Chunky',
+        positions: [
+            [-32.435, 19.182],
+            [-32.440, 19.186],
+            [-32.445, 19.188],
+            [-32.448, 19.185],
+            [-32.450, 19.180]
+        ]
+    },
+    {
+        id: 'sector-3',
+        name: 'Devil\'s Peak Wash',
+        color: '#ef4444', // red / brutal
+        status: 'Brutal',
+        positions: [
+            [-32.460, 19.170],
+            [-32.455, 19.172],
+            [-32.450, 19.175],
+            [-32.448, 19.170],
+            [-32.445, 19.165]
+        ]
+    },
+    {
+        id: 'sector-4',
+        name: 'Northern Ridge',
+        color: '#10b981', // green / champagne
+        status: 'Champagne',
+        positions: [
+            [-32.420, 19.175],
+            [-32.415, 19.170],
+            [-32.410, 19.165],
+            [-32.408, 19.160]
+        ]
     }
-    return sectors;
-};
-
-const INITIAL_SECTORS = generateSectors(50);
+];
 
 const INITIAL_NOTES: CommunityNote[] = [
     {
