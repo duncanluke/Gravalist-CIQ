@@ -8,6 +8,7 @@ import { Leaderboard } from './Leaderboard';
 import { AuthButton } from './AuthButton';
 import { Footer } from './Footer';
 import { Onboarding } from './Onboarding';
+import { MapLegend } from './MapLegend';
 import { motion, AnimatePresence } from 'framer-motion';
 import dynamic from 'next/dynamic';
 
@@ -183,6 +184,20 @@ export function MapInterface() {
                         <AuthButton />
                     </div>
                 </div>
+
+                {/* BOTTOM RIGHT LEGEND */}
+                <AnimatePresence>
+                    {currentView === 'map' && (
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                            animate={{ opacity: 1, scale: 1, y: 0 }}
+                            exit={{ opacity: 0, scale: 0.9, y: 20 }}
+                            className="fixed bottom-28 md:bottom-24 right-4 md:right-8 z-[105]"
+                        >
+                            <MapLegend />
+                        </motion.div>
+                    )}
+                </AnimatePresence>
 
                 {/* DESKTOP LEGEND / FOOTER */}
                 <div className="absolute inset-x-0 bottom-0 pointer-events-none block">

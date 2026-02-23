@@ -1,9 +1,11 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { MapContainer, TileLayer, Polyline, CircleMarker, Popup, useMapEvents } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
+import debounce from 'lodash/debounce';
+import { OverpassWay, fetchRoadsInBox, getSurfaceColor } from '../utils/overpass';
 
 // Fix for default marker icon in Leaflet with Webpack/Vite
 if (typeof window !== 'undefined') {
@@ -92,10 +94,17 @@ const INITIAL_NOTES: CommunityNote[] = [
     }
 ];
 
-function MapEvents({ onMapClick }: { onMapClick: (latlng: L.LatLng) => void }) {
-    useMapEvents({
+function MapEvents({ onMapClick, onBoundsChanged }: { onMapClick: (latlng: L.LatLng) => void, onBoundsChanged: (map: L.Map) => void }) {
+    const map = useMapEvents({
         click: (e) => onMapClick(e.latlng),
+        moveend: () => onBoundsChanged(map),
+        zoomend: () => onBoundsChanged(map),
     });
+
+    useEffect(() => {
+        onBoundsChanged(map);
+    }, [map, onBoundsChanged]);
+
     return null;
 }
 
@@ -108,6 +117,33 @@ export function GravelMap({ onSectorClick, user }: GravelMapProps) {
     const [notes, setNotes] = useState<CommunityNote[]>(INITIAL_NOTES);
     const [newNoteInput, setNewNoteInput] = useState<{ pos: [number, number], active: boolean }>({ pos: [0, 0], active: false });
     const [noteText, setNoteText] = useState('');
+    const [osmRoads, setOsmRoads] = useState<OverpassWay[]>([]);
+    const [isLoadingRoads, setIsLoadingRoads] = useState(false);
+
+    const handleBoundsChanged = useMemo(() => debounce(async (map: L.Map) => {
+        if (map.getZoom() < 13) {
+            setOsmRoads([]);
+            setIsLoadingRoads(false);
+            return;
+        }
+
+        setIsLoadingRoads(true);
+        const bounds = map.getBounds();
+        // Add a small buffer to the bounds
+        const pad = 0.05;
+        const roads = await fetchRoadsInBox(
+            bounds.getSouth() - pad,
+            bounds.getWest() - pad,
+            bounds.getNorth() + pad,
+            bounds.getEast() + pad
+        );
+
+        // Brief artificial delay for UI feedback
+        setTimeout(() => {
+            setOsmRoads(roads);
+            setIsLoadingRoads(false);
+        }, 300);
+    }, 800), []);
 
     const handleMapClick = (latlng: L.LatLng) => {
         if (!user) return; // Only logged in users can add notes
@@ -142,8 +178,51 @@ export function GravelMap({ onSectorClick, user }: GravelMapProps) {
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
             />
 
-            <MapEvents onMapClick={handleMapClick} />
+            <MapEvents onMapClick={handleMapClick} onBoundsChanged={handleBoundsChanged} />
 
+            {/* Overpass Roads (Dynamic) */}
+            {osmRoads.map((way) => {
+                const style = getSurfaceColor(way.tags);
+                return (
+                    <Polyline
+                        key={`osm-${way.id}`}
+                        positions={way.coordinates}
+                        pathOptions={{
+                            color: style.color,
+                            weight: style.weight,
+                            opacity: style.opacity,
+                            lineCap: 'round',
+                            lineJoin: 'round'
+                        }}
+                        eventHandlers={{
+                            mouseover: (e) => {
+                                if (style.color !== '#64748b') {
+                                    e.target.setStyle({ weight: style.weight + 3, opacity: 1 });
+                                }
+                            },
+                            mouseout: (e) => {
+                                if (style.color !== '#64748b') {
+                                    e.target.setStyle({ weight: style.weight, opacity: style.opacity });
+                                }
+                            }
+                        }}
+                    >
+                        {way.tags.name && style.color !== '#64748b' && (
+                            <Popup className="custom-popup">
+                                <div className="p-2 min-w-[120px]">
+                                    <h4 className="text-[10px] font-bold text-white uppercase tracking-wider">{way.tags.name}</h4>
+                                    <p className="text-[9px] text-slate-400 capitalize mt-1">
+                                        Type: {way.tags.highway || 'unknown'}<br />
+                                        Surface: {way.tags.surface || 'unknown'}
+                                    </p>
+                                </div>
+                            </Popup>
+                        )}
+                    </Polyline>
+                );
+            })}
+
+            {/* Existing Dummy Sectors */}
             {INITIAL_SECTORS.map((sector) => (
                 <Polyline
                     key={sector.id}
