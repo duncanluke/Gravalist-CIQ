@@ -20,7 +20,6 @@ export function Footer() {
                 <div className="flex items-center gap-2 md:gap-3">
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
                     <span className="hidden sm:inline text-[8px] md:text-[9px] uppercase tracking-[0.2em] text-slate-600 font-mono">Server Status: Nominal</span>
-                    <span className="text-[8px] md:text-[9px] uppercase tracking-[0.2em] text-slate-600 font-mono">v1.0.4-beta</span>
                 </div>
             </div>
         </footer>

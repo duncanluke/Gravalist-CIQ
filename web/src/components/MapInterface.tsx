@@ -90,6 +90,7 @@ export function MapInterface() {
                                 <span className="material-symbols-outlined text-lg md:text-2xl">watch</span>
                                 <span className="absolute -top-1 -right-1 w-1.5 h-1.5 md:w-2 md:h-2 bg-emerald-500 rounded-full border-2 border-[#101622]"></span>
                             </button>
+                            <div className="w-px h-4 md:h-6 bg-white/10 hidden sm:block"></div>
                             <button
                                 onClick={() => setShowOnboarding(true)}
                                 className="p-1.5 md:p-2 text-slate-400 hover:text-white transition-all transform hover:scale-110"
@@ -97,8 +98,6 @@ export function MapInterface() {
                             >
                                 <span className="material-symbols-outlined text-lg md:text-2xl">info</span>
                             </button>
-                            <div className="w-px h-4 md:h-6 bg-white/10 hidden sm:block"></div>
-                            <AuthButton />
                         </div>
                     </div>
                 </div>
@@ -181,6 +180,7 @@ export function MapInterface() {
                             <span className="material-symbols-outlined text-base md:text-xl">leaderboard</span>
                             <span className={`text-[9px] md:text-[10px] font-bold uppercase tracking-widest transition-all duration-300 overflow-hidden ${currentView === 'leaderboard' ? 'w-auto' : 'w-0 opacity-0'}`}>Leaderboard</span>
                         </button>
+                        <AuthButton />
                     </div>
                 </div>
 

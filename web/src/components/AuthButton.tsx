@@ -35,17 +35,14 @@ export function AuthButton() {
                         key="user"
                         initial={{ opacity: 0, scale: 0.9 }}
                         animate={{ opacity: 1, scale: 1 }}
-                        className="flex items-center gap-3"
+                        className="flex items-center"
                     >
-                        <div className="text-right hidden sm:block">
-                            <p className="text-[10px] font-bold text-white uppercase tracking-wider">{user.user_metadata?.full_name || 'Anonymous Scout'}</p>
-                            <p className="text-[9px] text-slate-500 font-mono tracking-tighter">LVL 4 SCOUT</p>
-                        </div>
                         <Link
                             href="/profile"
-                            className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-primary/20 border border-primary/30 flex items-center justify-center hover:border-primary transition-all overflow-hidden"
+                            className="flex items-center gap-2 md:gap-3 px-4 md:px-6 py-2 md:py-3.5 rounded-2xl transition-all duration-300 text-white active:bg-white/5"
                         >
-                            <span className="material-symbols-outlined text-primary text-xl md:text-2xl">person</span>
+                            <span className="material-symbols-outlined text-base md:text-xl text-primary drop-shadow-[0_0_8px_rgba(13,89,242,0.8)]">person</span>
+                            <span className="text-[9px] md:text-[10px] font-bold uppercase tracking-widest hidden sm:block">Profile</span>
                         </Link>
                     </motion.div>
                 ) : (
@@ -53,12 +50,14 @@ export function AuthButton() {
                         key="login"
                         initial={{ opacity: 0, x: 10 }}
                         animate={{ opacity: 1, x: 0 }}
+                        className="flex items-center"
                     >
                         <Link
                             href="/register"
-                            className="px-3 md:px-4 py-1.5 md:py-2 bg-primary text-white text-[9px] md:text-[10px] font-bold rounded-lg hover:shadow-[0_0_15px_rgba(13,89,242,0.4)] transition-all uppercase tracking-widest whitespace-nowrap"
+                            className="flex items-center gap-2 md:gap-3 px-4 md:px-6 py-2 md:py-3.5 rounded-2xl transition-all duration-300 text-slate-500 hover:text-white active:bg-white/5"
                         >
-                            Create Profile
+                            <span className="material-symbols-outlined text-base md:text-xl">person</span>
+                            <span className="text-[9px] md:text-[10px] font-bold uppercase tracking-widest hidden sm:block">Profile</span>
                         </Link>
                     </motion.div>
                 )}
