@@ -73,25 +73,18 @@ export async function fetchRoadsInBox(south: number, west: number, north: number
 }
 
 // Surface color mapping
-export function getSurfaceColor(tags: Record<string, string>): { color: string, weight: number, opacity: number } {
+export function getSurfaceColor(tags: Record<string, string>): { color: string, weight: number, opacity: number, dashArray?: string } {
     const surface = tags.surface?.toLowerCase() || '';
     const highway = tags.highway?.toLowerCase() || '';
 
-    // Paved colors
-    if (['paved', 'asphalt', 'concrete', 'chipseal'].includes(surface)) {
-        return { color: '#3b82f6', weight: 4, opacity: 0.6 }; // Blue
+    // Gravel, dirt, unpaved colors -> dotted gray
+    if (
+        ['gravel', 'fine_gravel', 'compacted', 'pebblestone', 'unpaved', 'dirt', 'earth', 'ground', 'sand'].includes(surface) ||
+        highway === 'track'
+    ) {
+        return { color: '#94a3b8', weight: 4, opacity: 0.8, dashArray: '4, 8' }; // Dotted Gray
     }
 
-    // Gravel colors
-    if (['gravel', 'fine_gravel', 'compacted', 'pebblestone'].includes(surface)) {
-        return { color: '#f59e0b', weight: 5, opacity: 0.8 }; // Orange/Gold
-    }
-
-    // Dirt colors
-    if (['unpaved', 'dirt', 'earth', 'ground', 'sand'].includes(surface) || highway === 'track') {
-        return { color: '#ef4444', weight: 4, opacity: 0.8 }; // Red
-    }
-
-    // Unknown or default
-    return { color: '#64748b', weight: 2, opacity: 0.4 }; // Grey
+    // Paved, unknown, or default -> solid light gray
+    return { color: '#cbd5e1', weight: 3, opacity: 0.5 }; // Solid Light Gray
 }

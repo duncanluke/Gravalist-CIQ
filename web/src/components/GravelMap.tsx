@@ -191,23 +191,20 @@ export function GravelMap({ onSectorClick, user }: GravelMapProps) {
                             color: style.color,
                             weight: style.weight,
                             opacity: style.opacity,
+                            dashArray: style.dashArray,
                             lineCap: 'round',
                             lineJoin: 'round'
                         }}
                         eventHandlers={{
                             mouseover: (e) => {
-                                if (style.color !== '#64748b') {
-                                    e.target.setStyle({ weight: style.weight + 3, opacity: 1 });
-                                }
+                                e.target.setStyle({ weight: style.weight + 2, opacity: 1 });
                             },
                             mouseout: (e) => {
-                                if (style.color !== '#64748b') {
-                                    e.target.setStyle({ weight: style.weight, opacity: style.opacity });
-                                }
+                                e.target.setStyle({ weight: style.weight, opacity: style.opacity });
                             }
                         }}
                     >
-                        {way.tags.name && style.color !== '#64748b' && (
+                        {way.tags.name && (
                             <Popup className="custom-popup">
                                 <div className="p-2 min-w-[120px]">
                                     <h4 className="text-[10px] font-bold text-white uppercase tracking-wider">{way.tags.name}</h4>
