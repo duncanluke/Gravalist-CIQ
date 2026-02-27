@@ -263,7 +263,7 @@ export function GravelMap({ onSectorClick, user }: GravelMapProps) {
                     positions={segment.positions}
                     pathOptions={{
                         color: segment.color,
-                        weight: 5,
+                        weight: 8, // Thicker weight for visibility
                         opacity: 0.8,
                         lineCap: 'round'
                     }}
@@ -273,10 +273,10 @@ export function GravelMap({ onSectorClick, user }: GravelMapProps) {
                             onSectorClick(segment.rideId); // Show ride info
                         },
                         mouseover: (e) => {
-                            e.target.setStyle({ weight: 8, opacity: 1 });
+                            e.target.setStyle({ weight: 12, opacity: 1 }); // Thicker on hover
                         },
                         mouseout: (e) => {
-                            e.target.setStyle({ weight: 5, opacity: 0.8 });
+                            e.target.setStyle({ weight: 8, opacity: 0.8 });
                         }
                     }}
                 >
