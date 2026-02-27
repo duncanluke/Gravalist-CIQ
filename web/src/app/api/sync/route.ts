@@ -31,15 +31,16 @@ export async function POST(request: Request) {
 
         // 2. Insert checkpoints if they exist
         if (checkpoints && checkpoints.length > 0) {
-            // Garmin sends checkpoints as [lat, lon, rating, speed, grad]
+            // Garmin sends checkpoints as arrays of associative objects: { lat, lon, rating, speed, gradient, timestamp }
             const checkpointData = checkpoints.map((c: any) => ({
                 ride_id: rideId,
-                lat: c[0],
-                lon: c[1],
-                location: `POINT(${c[1]} ${c[0]})`, // PostGIS format Longitude Latitude
-                rating: c[2],
-                speed: c[3],
-                gradient: c[4]
+                lat: c.lat,
+                lon: c.lon,
+                location: `POINT(${c.lon} ${c.lat})`, // PostGIS format Longitude Latitude
+                rating: c.rating,
+                speed: c.speed,
+                gradient: c.gradient,
+                timestamp: new Date(c.timestamp * 1000).toISOString()
             }));
 
             const { error: cpError } = await supabase
