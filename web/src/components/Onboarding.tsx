@@ -79,7 +79,7 @@ export function Onboarding({ onClose }: OnboardingProps) {
                         <div className="flex-1 flex flex-col justify-center">
                             <div className="relative mx-auto flex flex-col items-center justify-center mb-6">
                                 <div className="w-16 h-16 bg-[#161e2e] border border-primary/50 rounded-2xl flex items-center justify-center shadow-[0_0_20px_rgba(13,89,242,0.15)] z-10">
-                                    <span className="material-symbols-outlined text-3xl text-primary">watch</span>
+                                    <span className="material-symbols-outlined text-3xl text-primary">pedal_bike</span>
                                 </div>
                                 <div className="mt-4 text-center">
                                     <p className="text-[10px] font-mono text-primary uppercase tracking-[0.2em]">
@@ -91,7 +91,7 @@ export function Onboarding({ onClose }: OnboardingProps) {
                             <div className="text-center mb-6">
                                 <h1 className="text-2xl font-bold text-white mb-2 tracking-tight">Data Sensor</h1>
                                 <p className="text-slate-400 text-sm leading-relaxed max-w-sm mx-auto">
-                                    Add the Garmin IQ App to your device and we'll passively collect the latest gravel conditions from your rides.
+                                    Add the Garmin IQ App to your compatible Edge® cycling computer and we'll passively collect the latest gravel conditions from your rides.
                                 </p>
                             </div>
 
