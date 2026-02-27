@@ -49,24 +49,7 @@ interface CommunityNote {
     position: [number, number];
 }
 
-const INITIAL_NOTES: CommunityNote[] = [
-    {
-        id: '1',
-        user_name: 'Gravel Scout Alpha',
-        ride_name: 'Cederberg Odyssey',
-        text: 'Heavily corrugated section after the river crossing.',
-        date: '2026-02-20',
-        position: [-32.42, 19.15]
-    },
-    {
-        id: '2',
-        user_name: 'Trail Blazer',
-        ride_name: 'Sunset Loop',
-        text: 'Perfect champagne gravel here. Fast and smooth.',
-        date: '2026-02-21',
-        position: [-32.55, 19.32]
-    }
-];
+const INITIAL_NOTES: CommunityNote[] = [];
 
 function MapEvents({ onMapClick, onBoundsChanged }: { onMapClick: (latlng: L.LatLng) => void, onBoundsChanged: (map: L.Map) => void }) {
     const map = useMapEvents({
@@ -96,6 +79,7 @@ export function GravelMap({ onSectorClick, user }: GravelMapProps) {
     const [liveSegments, setLiveSegments] = useState<any[]>([]);
 
     useEffect(() => {
+        fetchNotes();
         const fetchCheckpoints = async () => {
             const supabase = createClient();
             const { data, error } = await supabase
@@ -182,24 +166,53 @@ export function GravelMap({ onSectorClick, user }: GravelMapProps) {
         }, 300);
     }, 800), []);
 
+    const fetchNotes = async () => {
+        const supabase = createClient();
+        const { data, error } = await supabase
+            .schema('maps')
+            .from('community_notes')
+            .select('*');
+
+        if (!error && data) {
+            const mappedNotes: CommunityNote[] = data.map(n => ({
+                id: n.id,
+                user_name: n.user_name,
+                ride_name: n.ride_name,
+                text: n.text,
+                date: new Date(n.created_at).toISOString().split('T')[0],
+                position: [n.lat, n.lon]
+            }));
+            setNotes(mappedNotes);
+        }
+    };
+
     const handleMapClick = (latlng: L.LatLng) => {
         if (!user) return; // Only logged in users can add notes
         setNewNoteInput({ pos: [latlng.lat, latlng.lng], active: true });
     };
 
-    const handleSaveNote = () => {
-        if (!noteText.trim()) return;
-        const newNote: CommunityNote = {
-            id: Date.now().toString(),
-            user_name: user?.user_metadata?.full_name || 'Anonymous Scout',
+    const handleSaveNote = async () => {
+        if (!noteText.trim() || !user) return;
+
+        const supabase = createClient();
+        const { error } = await supabase.schema('maps').from('community_notes').insert({
+            user_id: user.id,
+            user_name: user.user_metadata?.full_name || user.email?.split('@')[0] || 'Anonymous Scout',
             ride_name: 'Manual Entry',
             text: noteText,
-            date: new Date().toISOString().split('T')[0],
-            position: newNoteInput.pos
-        };
-        setNotes([...notes, newNote]);
-        setNoteText('');
-        setNewNoteInput({ ...newNoteInput, active: false });
+            lat: newNoteInput.pos[0],
+            lon: newNoteInput.pos[1],
+            location: `POINT(${newNoteInput.pos[1]} ${newNoteInput.pos[0]})`
+        });
+
+        if (!error) {
+            setNoteText('');
+            setNewNoteInput({ ...newNoteInput, active: false });
+            fetchNotes(); // Reload the map with the new note
+        } else {
+            console.error('Failed to save note:', error);
+            alert("Failed to save note. Ensure Supabase SQL was executed!");
+        }
     };
 
     return (
