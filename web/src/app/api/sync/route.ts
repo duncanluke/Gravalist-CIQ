@@ -35,17 +35,25 @@ export async function POST(request: Request) {
 
         // 2. Insert checkpoints if they exist
         if (checkpoints && checkpoints.length > 0) {
-            // Garmin sends checkpoints as arrays of associative objects: { lat, lon, rating, speed, gradient, timestamp }
-            const checkpointData = checkpoints.map((c: any) => ({
-                ride_id: rideId,
-                lat: c.lat,
-                lon: c.lon,
-                location: `POINT(${c.lon} ${c.lat})`, // PostGIS format Longitude Latitude
-                rating: c.rating,
-                speed: c.speed,
-                gradient: c.gradient,
-                timestamp: new Date(c.timestamp * 1000).toISOString()
-            }));
+            // Garmin sends checkpoints as arrays of associative objects: { lat, lon, rating, speed, gradient, timestamp, heading }
+            const checkpointData = checkpoints.map((c: any) => {
+                let color = 'green';
+                if (c.rating > 6.0) color = 'red';
+                else if (c.rating > 3.0) color = 'orange';
+
+                return {
+                    ride_id: rideId,
+                    lat: c.lat,
+                    lon: c.lon,
+                    location: `POINT(${c.lon} ${c.lat})`, // PostGIS format Longitude Latitude
+                    rating: c.rating,
+                    color: color,
+                    speed: c.speed,
+                    gradient: c.gradient,
+                    heading: c.heading || 0,
+                    timestamp: new Date(c.timestamp * 1000).toISOString()
+                };
+            });
 
             const { error: cpError } = await supabase
                 .schema('maps')

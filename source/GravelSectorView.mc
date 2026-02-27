@@ -142,10 +142,13 @@ class GravelSectorView extends WatchUi.DataField {
 
             // Every 5 minutes, capture a route checkpoint locally
             if (_checkpointCounter >= SYNC_INTERVAL) {
-                var lat = 0.0; var lon = 0.0;
+                var lat = 0.0; var lon = 0.0; var heading = 0.0;
                 if (info.currentLocation != null) { 
                     var c = info.currentLocation.toDegrees(); 
                     lat = c[0]; lon = c[1]; 
+                }
+                if (info.currentHeading != null) {
+                    heading = info.currentHeading; // Store current compass heading in radians
                 }
                 
                 // Add to local buffer instead of syncing live
@@ -155,6 +158,7 @@ class GravelSectorView extends WatchUi.DataField {
                     "rating" => _checkpointRatingSum / _checkpointDataCount,
                     "speed" => _checkpointSpeedSum / _checkpointDataCount,
                     "gradient" => _checkpointGradSum / _checkpointDataCount,
+                    "heading" => heading,
                     "timestamp" => Time.now().value()
                 });
 
