@@ -145,13 +145,14 @@ class GravelSectorView extends WatchUi.DataField {
                 }
                 
                 // Add to local buffer instead of syncing live
-                _checkpoints.add([
-                    lat, 
-                    lon, 
-                    _checkpointRatingSum / _checkpointDataCount, 
-                    _checkpointSpeedSum / _checkpointDataCount, 
-                    _checkpointGradSum / _checkpointDataCount
-                ]);
+                _checkpoints.add({
+                    "lat" => lat,
+                    "lon" => lon,
+                    "rating" => _checkpointRatingSum / _checkpointDataCount,
+                    "speed" => _checkpointSpeedSum / _checkpointDataCount,
+                    "gradient" => _checkpointGradSum / _checkpointDataCount,
+                    "timestamp" => Time.now().value()
+                });
 
                 _checkpointCounter = 0; _checkpointRatingSum = 0.0; _checkpointSpeedSum = 0.0; _checkpointGradSum = 0.0; _checkpointDataCount = 0;
             }
@@ -170,15 +171,16 @@ class GravelSectorView extends WatchUi.DataField {
 
     private function transmitBatch(rocks, rating) {
         var userId = "GUEST"; try { userId = Application.Properties.getValue("userId"); } catch (e) {}
+        var bikeType = 0; try { bikeType = Application.Properties.getValue("bikeType"); } catch (e) {}
         
         var payload = {
-            "userId" => userId,
             "rideId" => _rideId,
+            "userId" => userId,
+            "bikeType" => bikeType,
             "totalRocks" => rocks,
             "avgRating" => rating,
-            "checkpoints" => _checkpoints, // The entire 6-hour route data
             "timestamp" => Time.now().value(),
-            "bikeType" => Application.Properties.getValue("bikeType")
+            "checkpoints" => _checkpoints // The entire 6-hour route data
         };
 
         var opts = { 
