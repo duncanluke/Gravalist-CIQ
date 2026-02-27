@@ -6,6 +6,7 @@ import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import debounce from 'lodash/debounce';
 import { OverpassWay, fetchRoadsInBox, getSurfaceColor } from '../utils/overpass';
+import { createClient } from '@/utils/supabase/client';
 
 // Fix for default marker icon in Leaflet with Webpack/Vite
 if (typeof window !== 'undefined') {
@@ -20,13 +21,24 @@ if (typeof window !== 'undefined') {
 // Cederberg, South Africa - Gravel Heaven
 const CENTER: [number, number] = [-32.5, 19.2];
 
-interface GravelSector {
-    id: string;
-    name: string;
-    color: string; // hex
-    positions: [number, number][];
-    status: 'Brutal' | 'Chunky' | 'Champagne';
+interface DbCheckpoint {
+    id: number;
+    ride_id: string;
+    lat: number;
+    lon: number;
+    rating: number;
+    color: string;
+    speed: number;
+    gradient: number;
+    heading: number;
+    timestamp: string;
 }
+
+const COLOR_MAP: Record<string, string> = {
+    'green': '#10b981',
+    'orange': '#f59e0b',
+    'red': '#ef4444'
+};
 
 interface CommunityNote {
     id: string;
@@ -36,62 +48,6 @@ interface CommunityNote {
     date: string;
     position: [number, number];
 }
-
-// Hardcoded realistic road sectors for the Cederberg region to snap to the gray dotted Overpass overlay
-const INITIAL_SECTORS: GravelSector[] = [
-    {
-        id: 'sector-1',
-        name: 'Groot Dam Track',
-        color: '#10b981', // green / champagne
-        status: 'Champagne',
-        positions: [
-            [-32.441, 19.167],
-            [-32.440, 19.161],
-            [-32.433, 19.155],
-            [-32.428, 19.156],
-            [-32.424, 19.157],
-            [-32.417, 19.156]
-        ]
-    },
-    {
-        id: 'sector-2',
-        name: 'River Crossing Approach',
-        color: '#f59e0b', // orange / chunky
-        status: 'Chunky',
-        positions: [
-            [-32.435, 19.182],
-            [-32.440, 19.186],
-            [-32.445, 19.188],
-            [-32.448, 19.185],
-            [-32.450, 19.180]
-        ]
-    },
-    {
-        id: 'sector-3',
-        name: 'Devil\'s Peak Wash',
-        color: '#ef4444', // red / brutal
-        status: 'Brutal',
-        positions: [
-            [-32.460, 19.170],
-            [-32.455, 19.172],
-            [-32.450, 19.175],
-            [-32.448, 19.170],
-            [-32.445, 19.165]
-        ]
-    },
-    {
-        id: 'sector-4',
-        name: 'Northern Ridge',
-        color: '#10b981', // green / champagne
-        status: 'Champagne',
-        positions: [
-            [-32.420, 19.175],
-            [-32.415, 19.170],
-            [-32.410, 19.165],
-            [-32.408, 19.160]
-        ]
-    }
-];
 
 const INITIAL_NOTES: CommunityNote[] = [
     {
@@ -137,6 +93,69 @@ export function GravelMap({ onSectorClick, user }: GravelMapProps) {
     const [noteText, setNoteText] = useState('');
     const [osmRoads, setOsmRoads] = useState<OverpassWay[]>([]);
     const [isLoadingRoads, setIsLoadingRoads] = useState(false);
+    const [liveSegments, setLiveSegments] = useState<any[]>([]);
+
+    useEffect(() => {
+        const fetchCheckpoints = async () => {
+            const supabase = createClient();
+            const { data, error } = await supabase
+                .schema('maps')
+                .from('checkpoints')
+                .select('*')
+                .order('timestamp', { ascending: true });
+
+            if (error || !data) {
+                console.error('Error fetching checkpoints:', error);
+                return;
+            }
+
+            const rides = new Map<string, DbCheckpoint[]>();
+            data.forEach(cp => {
+                if (!rides.has(cp.ride_id)) rides.set(cp.ride_id, []);
+                rides.get(cp.ride_id)!.push(cp);
+            });
+
+            const segments: any[] = [];
+            let segId = 0;
+
+            rides.forEach((checkpoints, rideId) => {
+                if (checkpoints.length === 1) {
+                    segments.push({
+                        id: `seg-${segId++}`,
+                        positions: [[checkpoints[0].lat, checkpoints[0].lon], [checkpoints[0].lat + 0.0001, checkpoints[0].lon + 0.0001]],
+                        color: COLOR_MAP[checkpoints[0].color] || '#10b981',
+                        rating: checkpoints[0].rating,
+                        speed: checkpoints[0].speed,
+                        rideId: rideId,
+                        timestamp: checkpoints[0].timestamp
+                    });
+                } else {
+                    for (let i = 0; i < checkpoints.length - 1; i++) {
+                        const p1 = checkpoints[i];
+                        const p2 = checkpoints[i + 1];
+
+                        const t1 = new Date(p1.timestamp).getTime();
+                        const t2 = new Date(p2.timestamp).getTime();
+                        if (t2 - t1 > 45 * 60 * 1000) continue; // Skip lines > 45 min gap
+
+                        segments.push({
+                            id: `seg-${segId++}`,
+                            positions: [[p1.lat, p1.lon], [p2.lat, p2.lon]],
+                            color: COLOR_MAP[p1.color] || '#10b981',
+                            rating: p1.rating,
+                            speed: p1.speed,
+                            rideId: rideId,
+                            timestamp: p1.timestamp
+                        });
+                    }
+                }
+            });
+
+            setLiveSegments(segments);
+        };
+
+        fetchCheckpoints();
+    }, []);
 
     const handleBoundsChanged = useMemo(() => debounce(async (map: L.Map) => {
         if (map.getZoom() < 13) {
@@ -237,30 +256,41 @@ export function GravelMap({ onSectorClick, user }: GravelMapProps) {
                 );
             })}
 
-            {/* Existing Dummy Sectors */}
-            {INITIAL_SECTORS.map((sector) => (
+            {/* Live Garmin Checkpoints */}
+            {liveSegments.map((segment) => (
                 <Polyline
-                    key={sector.id}
-                    positions={sector.positions}
+                    key={segment.id}
+                    positions={segment.positions}
                     pathOptions={{
-                        color: sector.color,
-                        weight: 4,
-                        opacity: 0.7,
+                        color: segment.color,
+                        weight: 5,
+                        opacity: 0.8,
                         lineCap: 'round'
                     }}
                     eventHandlers={{
                         click: (e) => {
                             L.DomEvent.stopPropagation(e);
-                            onSectorClick(sector.id);
+                            onSectorClick(segment.rideId); // Show ride info
                         },
                         mouseover: (e) => {
-                            e.target.setStyle({ weight: 7, opacity: 1 });
+                            e.target.setStyle({ weight: 8, opacity: 1 });
                         },
                         mouseout: (e) => {
-                            e.target.setStyle({ weight: 4, opacity: 0.7 });
+                            e.target.setStyle({ weight: 5, opacity: 0.8 });
                         }
                     }}
-                />
+                >
+                    <Popup className="custom-popup">
+                        <div className="p-2 min-w-[120px]">
+                            <h4 className="text-[10px] font-bold text-white uppercase tracking-wider mb-1">Live Segment</h4>
+                            <p className="text-[9px] text-slate-400">
+                                Rating: <span className="text-white font-mono">{segment.rating.toFixed(1)}</span><br />
+                                Speed: <span className="text-white font-mono">{segment.speed.toFixed(1)} km/h</span><br />
+                                Logged: <span className="text-white font-mono">{new Date(segment.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                            </p>
+                        </div>
+                    </Popup>
+                </Polyline>
             ))}
 
             {/* Community Notes */}
