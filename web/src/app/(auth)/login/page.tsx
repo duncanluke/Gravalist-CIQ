@@ -35,18 +35,18 @@ function LoginForm() {
 
     return (
         <div className="max-w-md w-full">
-            <div className="text-center mb-10">
-                <Link href="/" className="inline-flex items-center gap-3 mb-6">
-                    <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center shadow-[0_0_20px_rgba(13,89,242,0.4)]">
-                        <span className="material-symbols-outlined text-white text-2xl">terrain</span>
-                    </div>
-                    <span className="text-2xl font-bold text-white tracking-tighter">GRAVALIST</span>
-                </Link>
-                <h1 className="text-3xl font-bold text-white mb-2">Welcome Back</h1>
-                <p className="text-slate-500">Log in to your scout profile.</p>
-            </div>
-
             <form onSubmit={handleLogin} className="bg-[#161e2e]/50 backdrop-blur-xl border border-white/5 rounded-2xl p-8 shadow-2xl space-y-6 text-slate-300">
+                <div className="text-center mb-6">
+                    <Link href="/" className="inline-flex items-center gap-3 mb-6">
+                        <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center shadow-[0_0_20px_rgba(13,89,242,0.4)]">
+                            <span className="material-symbols-outlined text-white text-2xl">terrain</span>
+                        </div>
+                        <span className="text-2xl font-bold text-white tracking-tighter">GRAVALIST</span>
+                    </Link>
+                    <h1 className="text-3xl font-bold text-white mb-2">Welcome Back</h1>
+                    <p className="text-slate-500">Log in to your scout profile.</p>
+                </div>
+
                 {message && (
                     <div className="bg-primary/10 border border-primary/20 text-primary text-xs p-4 rounded-lg">
                         {message}
@@ -93,7 +93,7 @@ function LoginForm() {
 
                 <button
                     disabled={loading}
-                    className="w-full py-4 bg-primary hover:bg-primary/90 text-white font-bold rounded-xl transition-all shadow-[0_0_20px_rgba(13,89,242,0.3)] hover:shadow-[0_0_30px_rgba(13,89,242,0.5)] disabled:opacity-50"
+                    className="w-full py-4 bg-primary hover:bg-primary/90 text-white font-bold rounded-xl transition-all shadow-[0_0_20px_rgba(13,89,242,0.3)] hover:shadow-[0_0_30px_rgba(13,89,242,0.5)] disabled:opacity-50 mt-4"
                 >
                     {loading ? 'AUTHORIZING...' : 'LOG IN'}
                 </button>
