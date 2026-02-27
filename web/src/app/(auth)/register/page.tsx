@@ -32,7 +32,7 @@ export default function RegisterPage() {
         if (error) {
             setError(error.message);
         } else {
-            router.push('/login?message=Check your email to confirm registration');
+            router.push('/');
         }
         setLoading(false);
     };
