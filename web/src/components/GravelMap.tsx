@@ -197,7 +197,7 @@ export function GravelMap({ onSectorClick, user }: GravelMapProps) {
         const supabase = createClient();
         const { error } = await supabase.schema('maps').from('community_notes').insert({
             user_id: user.id,
-            user_name: user.user_metadata?.full_name || user.email?.split('@')[0] || 'Anonymous Scout',
+            user_name: user.user_metadata?.full_name || user.email?.split('@')[0] || 'Anonymous Rider',
             ride_name: 'Manual Entry',
             text: noteText,
             lat: newNoteInput.pos[0],

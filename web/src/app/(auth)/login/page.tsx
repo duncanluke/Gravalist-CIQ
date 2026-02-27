@@ -44,7 +44,7 @@ function LoginForm() {
                         <span className="text-2xl font-bold text-white tracking-tighter">GRAVALIST</span>
                     </Link>
                     <h1 className="text-3xl font-bold text-white mb-2">Welcome Back</h1>
-                    <p className="text-slate-500">Log in to your scout profile.</p>
+                    <p className="text-slate-500">Log in to your profile.</p>
                 </div>
 
                 {message && (

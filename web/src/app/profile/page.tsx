@@ -71,7 +71,7 @@ export default function ProfilePage() {
             <div className="max-w-xl mx-auto">
                 <div className="flex items-center justify-between mb-12">
                     <div>
-                        <h1 className="text-3xl font-bold text-white mb-2">Scout Profile</h1>
+                        <h1 className="text-3xl font-bold text-white mb-2">Your Profile</h1>
                         <p className="text-slate-500 text-sm">Manage your identification and gear.</p>
                     </div>
                     <button
@@ -101,13 +101,13 @@ export default function ProfilePage() {
                         </div>
                         <div>
                             <p className="text-sm font-bold text-white">{user.email}</p>
-                            <p className="text-xs text-slate-500">Verified Scout since 2026</p>
+                            <p className="text-xs text-slate-500">Verified Rider since 2026</p>
                         </div>
                     </div>
 
                     <div className="space-y-6">
                         <div className="space-y-2">
-                            <label className="text-[10px] font-bold text-primary uppercase tracking-widest ml-1">Full Scout Name</label>
+                            <label className="text-[10px] font-bold text-primary uppercase tracking-widest ml-1">Full Name</label>
                             <input
                                 required
                                 type="text"

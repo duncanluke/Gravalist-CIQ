@@ -40,7 +40,7 @@ export default function UpdatePasswordPage() {
                         <span className="text-2xl font-bold text-white tracking-tighter">GRAVALIST</span>
                     </Link>
                     <h1 className="text-3xl font-bold text-white mb-2">New Password</h1>
-                    <p className="text-slate-500">Secure your scout profile with a new secret.</p>
+                    <p className="text-slate-500">Secure your profile with a new secret.</p>
                 </div>
 
                 <form onSubmit={handleUpdate} className="bg-[#161e2e]/50 backdrop-blur-xl border border-white/5 rounded-2xl p-8 shadow-2xl space-y-6 text-slate-300">

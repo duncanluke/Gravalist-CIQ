@@ -2,19 +2,19 @@
 
 import React from 'react';
 
-export function ScoutsPanel() {
+export function RidersPanel() {
     return (
         <div className="bg-[#161e2e]/90 backdrop-blur-md border border-white/10 rounded-2xl p-4 flex flex-col gap-4 shadow-2xl pointer-events-auto">
             <div className="flex items-center justify-between border-b border-white/10 pb-3">
                 <div className="flex items-center gap-2">
                     <span className="material-symbols-outlined text-primary">group</span>
-                    <h3 className="text-sm font-bold tracking-wider uppercase text-white">Active Scouts</h3>
+                    <h3 className="text-sm font-bold tracking-wider uppercase text-white">Active Riders</h3>
                 </div>
                 <span className="text-xs font-mono text-primary animate-pulse">12 LIVE</span>
             </div>
 
             <div className="space-y-3 overflow-y-auto max-h-[30vh] pr-1 custom-scrollbar">
-                {/* Scout Item 1 */}
+                {/* Rider Item 1 */}
                 <div className="flex items-center justify-between group cursor-pointer hover:bg-white/5 p-2 rounded-lg transition-colors">
                     <div className="flex items-center gap-3">
                         <div className="relative">
@@ -31,7 +31,7 @@ export function ScoutsPanel() {
                     <span className="text-[10px] font-mono text-slate-500">14.2 km/h</span>
                 </div>
 
-                {/* Scout Item 2 */}
+                {/* Rider Item 2 */}
                 <div className="flex items-center justify-between group cursor-pointer hover:bg-white/5 p-2 rounded-lg transition-colors">
                     <div className="flex items-center gap-3">
                         <div className="relative">
@@ -48,7 +48,7 @@ export function ScoutsPanel() {
                     <span className="text-[10px] font-mono text-slate-500">22.1 km/h</span>
                 </div>
 
-                {/* Scout Item 3 */}
+                {/* Rider Item 3 */}
                 <div className="flex items-center justify-between group cursor-pointer hover:bg-white/5 p-2 rounded-lg transition-colors">
                     <div className="flex items-center gap-3">
                         <div className="relative">
