@@ -94,15 +94,38 @@ export function Onboarding({ onClose }: OnboardingProps) {
             </div>
 
             <div className="pt-8 space-y-4">
-                <button
-                    onClick={nextStep}
-                    className="w-full py-4 bg-primary hover:bg-primary/90 text-white font-bold rounded-xl transition-all shadow-[0_0_30px_rgba(13,89,242,0.3)] flex items-center justify-center gap-2 group"
-                >
-                    <span>{currentStep === steps.length - 1 ? 'GET STARTED' : 'NEXT'}</span>
-                    <span className="material-symbols-outlined group-hover:translate-x-1 transition-transform">
-                        {currentStep === steps.length - 1 ? 'check' : 'arrow_forward'}
-                    </span>
-                </button>
+                {currentStep === steps.length - 1 ? (
+                    <div className="space-y-3 w-full">
+                        <a
+                            href="https://apps.garmin.com/en-US/apps/7014cfeb-226e-4d97-bc68-c59631f66c56"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onClick={onClose}
+                            className="w-full py-4 bg-primary hover:bg-primary/90 text-white font-bold rounded-xl transition-all shadow-[0_0_30px_rgba(13,89,242,0.3)] flex items-center justify-center gap-2 group"
+                        >
+                            <span>DOWNLOAD GARMIN APP</span>
+                            <span className="material-symbols-outlined group-hover:-translate-y-1 transition-transform">
+                                download
+                            </span>
+                        </a>
+                        <button
+                            onClick={onClose}
+                            className="w-full py-2 text-slate-500 text-[10px] font-bold uppercase tracking-widest hover:text-white transition-colors"
+                        >
+                            Continue to Map
+                        </button>
+                    </div>
+                ) : (
+                    <button
+                        onClick={nextStep}
+                        className="w-full py-4 bg-primary hover:bg-primary/90 text-white font-bold rounded-xl transition-all shadow-[0_0_30px_rgba(13,89,242,0.3)] flex items-center justify-center gap-2 group"
+                    >
+                        <span>NEXT</span>
+                        <span className="material-symbols-outlined group-hover:translate-x-1 transition-transform">
+                            arrow_forward
+                        </span>
+                    </button>
+                )}
 
                 {currentStep < steps.length - 1 && (
                     <button

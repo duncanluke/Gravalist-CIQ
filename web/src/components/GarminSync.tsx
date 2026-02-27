@@ -71,12 +71,15 @@ export function GarminSync() {
                     </div>
 
                     {/* Action */}
-                    <button
+                    <a
+                        href="https://apps.garmin.com/en-US/apps/7014cfeb-226e-4d97-bc68-c59631f66c56"
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="w-full py-3.5 bg-primary hover:bg-primary/90 text-white text-xs font-bold rounded-xl transition-all shadow-[0_0_20px_rgba(13,89,242,0.4)] flex items-center justify-center gap-2"
                     >
                         <span>GET CONNECT IQ APP</span>
                         <span className="material-symbols-outlined text-sm">open_in_new</span>
-                    </button>
+                    </a>
                 </div>
             </div>
         </div>
