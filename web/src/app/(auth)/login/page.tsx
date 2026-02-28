@@ -34,17 +34,16 @@ function LoginForm() {
     };
 
     return (
-        <div className="max-w-md w-full">
-            <form onSubmit={handleLogin} className="bg-[#161e2e]/50 backdrop-blur-xl border border-white/5 rounded-2xl p-8 shadow-2xl space-y-6 text-slate-300">
-                <div className="text-center mb-6">
-                    <Link href="/" className="inline-flex items-center gap-3 mb-6">
-                        <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center shadow-[0_0_20px_rgba(13,89,242,0.4)]">
-                            <span className="material-symbols-outlined text-white text-2xl">terrain</span>
+        <div className="max-w-sm w-full">
+            <form onSubmit={handleLogin} className="bg-[#161e2e]/50 backdrop-blur-xl border border-white/5 rounded-2xl p-6 shadow-2xl space-y-4 text-slate-300">
+                <div className="text-center mb-4">
+                    <Link href="/" className="inline-flex items-center gap-2 mb-4">
+                        <div className="w-8 h-8 bg-primary rounded-xl flex items-center justify-center shadow-[0_0_20px_rgba(13,89,242,0.4)]">
+                            <span className="material-symbols-outlined text-white text-xl">terrain</span>
                         </div>
-                        <span className="text-2xl font-bold text-white tracking-tighter">GRAVALIST</span>
+                        <span className="text-xl font-bold text-white tracking-tighter">GRAVALIST</span>
                     </Link>
-                    <h1 className="text-3xl font-bold text-white mb-2">Welcome Back</h1>
-                    <p className="text-slate-500">Log in to your profile.</p>
+                    <h1 className="text-2xl font-bold text-white">Welcome Back</h1>
                 </div>
 
                 {message && (
@@ -68,12 +67,12 @@ function LoginForm() {
                         type="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        className="w-full bg-black/20 border border-white/10 rounded-xl py-3 px-4 text-white focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all placeholder:text-slate-600"
+                        className="w-full bg-black/20 border border-white/10 rounded-xl py-2.5 px-4 text-white text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all placeholder:text-slate-600"
                         placeholder="alex@gravalist.com"
                     />
                 </div>
 
-                <div className="space-y-2 text-slate-300">
+                <div className="space-y-1.5 text-slate-300 ml-1">
                     <div className="flex justify-between items-center px-1">
                         <label className="text-[10px] font-bold text-primary uppercase tracking-widest">Password</label>
                         <Link href="/reset-password" title="reset password" className="text-[10px] font-bold text-slate-500 hover:text-white transition-colors uppercase tracking-widest">Forgot?</Link>
@@ -83,14 +82,14 @@ function LoginForm() {
                         type="password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        className="w-full bg-black/20 border border-white/10 rounded-xl py-3 px-4 text-white focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all placeholder:text-slate-600"
+                        className="w-full bg-black/20 border border-white/10 rounded-xl py-2.5 px-4 text-white text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all placeholder:text-slate-600"
                         placeholder="••••••••"
                     />
                 </div>
 
                 <button
                     disabled={loading}
-                    className="w-full py-4 bg-primary hover:bg-primary/90 text-white font-bold rounded-xl transition-all shadow-[0_0_20px_rgba(13,89,242,0.3)] hover:shadow-[0_0_30px_rgba(13,89,242,0.5)] disabled:opacity-50 mt-4"
+                    className="w-full py-3 bg-primary hover:bg-primary/90 text-white text-sm font-bold rounded-xl transition-all shadow-[0_0_20px_rgba(13,89,242,0.3)] hover:shadow-[0_0_30px_rgba(13,89,242,0.5)] disabled:opacity-50 mt-4"
                 >
                     {loading ? 'AUTHORIZING...' : 'LOG IN'}
                 </button>
