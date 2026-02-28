@@ -53,7 +53,7 @@ export function AuthButton() {
                         className="flex items-center"
                     >
                         <Link
-                            href="/register"
+                            href="/login"
                             className="flex items-center gap-2 md:gap-3 px-4 md:px-6 py-2 md:py-3.5 rounded-2xl transition-all duration-300 text-slate-500 hover:text-white active:bg-white/5"
                         >
                             <span className="material-symbols-outlined text-base md:text-xl">person</span>

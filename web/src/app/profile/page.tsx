@@ -26,7 +26,6 @@ export default function ProfilePage() {
                 return;
             }
             setUser(user);
-            setFullName(user.user_metadata?.full_name || '');
             setBikeType(user.user_metadata?.bike_type || 'Gravel');
             setLoading(false);
         }
@@ -40,7 +39,6 @@ export default function ProfilePage() {
 
         const { error } = await supabase.auth.updateUser({
             data: {
-                full_name: fullName,
                 bike_type: bikeType
             }
         });
@@ -81,7 +79,6 @@ export default function ProfilePage() {
                 <div className="flex items-center justify-between mb-12">
                     <div>
                         <h1 className="text-3xl font-bold text-white mb-2">Your Profile</h1>
-                        <p className="text-slate-500 text-sm">Manage your identification and gear.</p>
                     </div>
                     <button
                         onClick={handleSignOut}
@@ -110,21 +107,10 @@ export default function ProfilePage() {
                         </div>
                         <div>
                             <p className="text-sm font-bold text-white">{user.email}</p>
-                            <p className="text-xs text-slate-500">Verified Rider since 2026</p>
                         </div>
                     </div>
 
                     <div className="space-y-6">
-                        <div className="space-y-2">
-                            <label className="text-[10px] font-bold text-primary uppercase tracking-widest ml-1">Full Name</label>
-                            <input
-                                required
-                                type="text"
-                                value={fullName}
-                                onChange={(e) => setFullName(e.target.value)}
-                                className="w-full bg-black/20 border border-white/10 rounded-xl py-3 px-4 text-white focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
-                            />
-                        </div>
 
                         <div className="space-y-2">
                             <label className="text-[10px] font-bold text-primary uppercase tracking-widest ml-1">Primary Bike</label>

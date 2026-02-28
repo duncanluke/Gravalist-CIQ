@@ -59,10 +59,7 @@ function LoginForm() {
                     </div>
                 )}
 
-                <div className="flex justify-between items-center px-1">
-                    <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Authentication</span>
-                    <Link href="/register" className="text-[10px] font-bold text-primary hover:text-white transition-colors uppercase tracking-widest">Create Profile Instead</Link>
-                </div>
+
 
                 <div className="space-y-2 text-slate-300">
                     <label className="text-[10px] font-bold text-primary uppercase tracking-widest ml-1">Email Address</label>
