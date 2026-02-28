@@ -14,3 +14,4 @@ web/.env*
 # Mac OS files
 .DS_Store
 .vercel
+.env*.local

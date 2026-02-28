@@ -209,12 +209,20 @@ class GravelSectorView extends WatchUi.DataField {
 
     private function calculateVariance(values) {
         if (values.size() == 0) { return 0.0; }
-        var sum = 0.0; var sumSq = 0.0;
+        
+        var sum = 0.0;
         for (var i = 0; i < values.size(); i++) {
-            var val = values[i].toFloat(); sum += val; sumSq += (val * val);
+            sum += values[i].toFloat();
         }
         var mean = sum / values.size();
-        var varc = (sumSq / values.size()) - (mean * mean);
+        
+        var sumSqDiff = 0.0;
+        for (var i = 0; i < values.size(); i++) {
+            var diff = values[i].toFloat() - mean;
+            sumSqDiff += (diff * diff);
+        }
+        
+        var varc = sumSqDiff / values.size();
         return varc > 0 ? varc : 0.0;
     }
 }
