@@ -86,7 +86,8 @@ export function GravelMap({ onSectorClick, user }: GravelMapProps) {
                 .schema('maps')
                 .from('checkpoints')
                 .select('*')
-                .order('timestamp', { ascending: true });
+                .limit(50000)
+                .order('timestamp', { ascending: false });
 
             if (error || !data) {
                 console.error('Error fetching checkpoints:', error);
@@ -106,11 +107,14 @@ export function GravelMap({ onSectorClick, user }: GravelMapProps) {
             let segId = 0;
 
             rides.forEach((checkpoints, rideId) => {
+                // Restore chronological order for Gap checks and drawing
+                checkpoints.sort((a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime());
+
                 if (checkpoints.length === 1) {
                     segments.push({
                         id: `seg-${segId++}`,
                         positions: [[Number(checkpoints[0].lat), Number(checkpoints[0].lon)], [Number(checkpoints[0].lat) + 0.0001, Number(checkpoints[0].lon) + 0.0001]],
-                        color: COLOR_MAP[checkpoints[0].color || ''] || '#cbd5e1',
+                        color: COLOR_MAP[(checkpoints[0].color || '').toLowerCase()] || '#cbd5e1',
                         rating: checkpoints[0].rating,
                         speed: checkpoints[0].speed,
                         rideId: rideId,
@@ -123,12 +127,15 @@ export function GravelMap({ onSectorClick, user }: GravelMapProps) {
 
                         const t1 = new Date(p1.timestamp).getTime();
                         const t2 = new Date(p2.timestamp).getTime();
-                        if (t2 - t1 > 45 * 60 * 1000) continue; // Skip lines > 45 min gap
+
+                        if (!isNaN(t1) && !isNaN(t2)) {
+                            if (t2 - t1 > 45 * 60 * 1000) continue; // Skip lines > 45 min gap
+                        }
 
                         segments.push({
                             id: `seg-${segId++}`,
                             positions: [[Number(p1.lat), Number(p1.lon)], [Number(p2.lat), Number(p2.lon)]],
-                            color: COLOR_MAP[p1.color || ''] || '#cbd5e1',
+                            color: COLOR_MAP[(p1.color || '').toLowerCase()] || '#cbd5e1',
                             rating: p1.rating,
                             speed: p1.speed,
                             rideId: rideId,
