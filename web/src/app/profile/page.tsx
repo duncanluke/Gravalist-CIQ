@@ -13,6 +13,7 @@ export default function ProfilePage() {
     const [fullName, setFullName] = useState('');
     const [bikeType, setBikeType] = useState('Gravel');
     const [message, setMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null);
+    const [copied, setCopied] = useState(false);
 
     const router = useRouter();
     const supabase = createClient();
@@ -55,6 +56,14 @@ export default function ProfilePage() {
     const handleSignOut = async () => {
         await supabase.auth.signOut();
         router.push('/login');
+    };
+
+    const handleCopyId = () => {
+        if (user?.id) {
+            navigator.clipboard.writeText(user.id);
+            setCopied(true);
+            setTimeout(() => setCopied(false), 2000);
+        }
     };
 
     if (loading) return (
@@ -129,6 +138,46 @@ export default function ProfilePage() {
                                 <option value="Endurance">Endurance Road</option>
                                 <option value="Monster">Monster Cross</option>
                             </select>
+                        </div>
+
+                        {/* Garmin Integration Section */}
+                        <div className="pt-6 border-t border-white/5 space-y-4">
+                            <div>
+                                <h3 className="text-sm font-bold text-white mb-1 flex items-center gap-2">
+                                    <span className="material-symbols-outlined text-primary text-lg">watch</span>
+                                    Garmin Integration
+                                </h3>
+                                <p className="text-xs text-slate-400">Pair your bike computer to upload rides to the map automatically.</p>
+                            </div>
+
+                            <div className="bg-black/30 border border-white/5 rounded-xl p-4 space-y-4">
+                                <div>
+                                    <label className="text-[10px] font-bold text-primary uppercase tracking-widest ml-1 mb-1 block">Your User ID</label>
+                                    <div className="flex gap-2">
+                                        <code className="flex-1 bg-black/50 border border-white/10 rounded-lg py-2 px-3 text-white font-mono text-xs overflow-x-auto whitespace-nowrap">
+                                            {user?.id}
+                                        </code>
+                                        <button
+                                            type="button"
+                                            onClick={handleCopyId}
+                                            className={`px-4 py-2 rounded-lg text-xs font-bold transition-all flex items-center gap-1 ${copied ? 'bg-green-500/20 text-green-500 border border-green-500/20' : 'bg-white/5 text-white hover:bg-white/10 border border-white/10'}`}
+                                        >
+                                            <span className="material-symbols-outlined text-sm">{copied ? 'check' : 'content_copy'}</span>
+                                            {copied ? 'COPIED' : 'COPY'}
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div className="space-y-2 mt-2">
+                                    <p className="text-xs text-slate-300 font-bold">How to pair:</p>
+                                    <ol className="text-xs text-slate-400 space-y-2 list-decimal list-outside ml-4">
+                                        <li>Install the <strong>Gravel Sector</strong> app from the Connect IQ store.</li>
+                                        <li>Open the <strong>Garmin Connect</strong> app on your smartphone.</li>
+                                        <li>Navigate to your Device &gt; Activities &amp; App Management &gt; Data Fields &gt; Gravel Sector &gt; Settings.</li>
+                                        <li>Paste your User ID above into the <strong>Gravalist User ID</strong> field and save.</li>
+                                    </ol>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
