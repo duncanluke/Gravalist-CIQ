@@ -32,7 +32,7 @@ class GravelSectorView extends WatchUi.DataField {
     private var _lapStartRocks = 0.0;
     private var _sensitivity = 1.0;
     
-    private var _ratingHistory = new [75];
+    private var _ratingHistory = new [5];
     private var _historyIdx = 0;
     
     // Batch Sync Variables (End-of-ride only)
@@ -79,7 +79,7 @@ class GravelSectorView extends WatchUi.DataField {
         _fitFieldSessionAvg = createField("avg_gravel_rating", FIELD_ID_SESSION_AVG_RATING, FitContributor.DATA_TYPE_FLOAT, { :mesgType => FitContributor.MESG_TYPE_SESSION, :units => "avg_score" });
         _fitFieldLapRocks = createField("lap_rocks", FIELD_ID_LAP_ROCKS, FitContributor.DATA_TYPE_FLOAT, { :mesgType => FitContributor.MESG_TYPE_LAP, :units => "lap_pts" });
 
-        for (var i = 0; i < 75; i++) {
+        for (var i = 0; i < 5; i++) {
             _ratingHistory[i] = 0.0;
         }
     }
@@ -129,7 +129,6 @@ class GravelSectorView extends WatchUi.DataField {
         if (_currentRating > 10.0) { _currentRating = 10.0; }
         if (_fitFieldRating != null) { _fitFieldRating.setData(_currentRating); }
         if (_fitFieldPoints != null) { _fitFieldPoints.setData(_rockPoints); }
-        WatchUi.requestUpdate();
     }
 
     function compute(info) {

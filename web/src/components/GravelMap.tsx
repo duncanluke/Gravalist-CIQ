@@ -81,71 +81,66 @@ export function GravelMap({ onSectorClick, user }: GravelMapProps) {
     useEffect(() => {
         fetchNotes();
         const fetchCheckpoints = async () => {
-            const supabase = createClient();
-            const { data, error } = await supabase
-                .schema('maps')
-                .from('checkpoints')
-                .select('*')
-                .limit(50000)
-                .order('timestamp', { ascending: false });
+            try {
+                const response = await fetch('/api/rides');
+                if (!response.ok) throw new Error('API request failed');
+                const data = await response.json();
 
-            if (error || !data) {
-                console.error('Error fetching checkpoints:', error);
-                return;
-            }
+                const rides = new Map<string, DbCheckpoint[]>();
+                data.forEach((cp: any) => {
+                    // filter out 0,0 points as they are invalid
+                    if (Number(cp.lat) === 0 && Number(cp.lon) === 0) return;
 
-            const rides = new Map<string, DbCheckpoint[]>();
-            data.forEach((cp: any) => {
-                // filter out 0,0 points as they are invalid
-                if (Number(cp.lat) === 0 && Number(cp.lon) === 0) return;
+                    if (!rides.has(cp.ride_id)) rides.set(cp.ride_id, []);
+                    rides.get(cp.ride_id)!.push(cp);
+                });
 
-                if (!rides.has(cp.ride_id)) rides.set(cp.ride_id, []);
-                rides.get(cp.ride_id)!.push(cp);
-            });
+                const segments: any[] = [];
+                let segId = 0;
 
-            const segments: any[] = [];
-            let segId = 0;
+                rides.forEach((checkpoints, rideId) => {
+                    // Restore chronological order for Gap checks and drawing
+                    checkpoints.sort((a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime());
 
-            rides.forEach((checkpoints, rideId) => {
-                // Restore chronological order for Gap checks and drawing
-                checkpoints.sort((a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime());
-
-                if (checkpoints.length === 1) {
-                    segments.push({
-                        id: `seg-${segId++}`,
-                        positions: [[Number(checkpoints[0].lat), Number(checkpoints[0].lon)], [Number(checkpoints[0].lat) + 0.0001, Number(checkpoints[0].lon) + 0.0001]],
-                        color: COLOR_MAP[(checkpoints[0].color || '').toLowerCase()] || '#cbd5e1',
-                        rating: checkpoints[0].rating,
-                        speed: checkpoints[0].speed,
-                        rideId: rideId,
-                        timestamp: checkpoints[0].timestamp
-                    });
-                } else {
-                    for (let i = 0; i < checkpoints.length - 1; i++) {
-                        const p1 = checkpoints[i];
-                        const p2 = checkpoints[i + 1];
-
-                        const t1 = new Date(p1.timestamp).getTime();
-                        const t2 = new Date(p2.timestamp).getTime();
-
-                        if (!isNaN(t1) && !isNaN(t2)) {
-                            if (t2 - t1 > 45 * 60 * 1000) continue; // Skip lines > 45 min gap
-                        }
-
+                    if (checkpoints.length === 1) {
                         segments.push({
                             id: `seg-${segId++}`,
-                            positions: [[Number(p1.lat), Number(p1.lon)], [Number(p2.lat), Number(p2.lon)]],
-                            color: COLOR_MAP[(p1.color || '').toLowerCase()] || '#cbd5e1',
-                            rating: p1.rating,
-                            speed: p1.speed,
+                            positions: [[Number(checkpoints[0].lat), Number(checkpoints[0].lon)], [Number(checkpoints[0].lat) + 0.0001, Number(checkpoints[0].lon) + 0.0001]],
+                            color: COLOR_MAP[(checkpoints[0].color || '').toLowerCase()] || '#cbd5e1',
+                            rating: checkpoints[0].rating,
+                            speed: checkpoints[0].speed,
                             rideId: rideId,
-                            timestamp: p1.timestamp
+                            timestamp: checkpoints[0].timestamp
                         });
-                    }
-                }
-            });
+                    } else {
+                        for (let i = 0; i < checkpoints.length - 1; i++) {
+                            const p1 = checkpoints[i];
+                            const p2 = checkpoints[i + 1];
 
-            setLiveSegments(segments);
+                            const t1 = new Date(p1.timestamp).getTime();
+                            const t2 = new Date(p2.timestamp).getTime();
+
+                            if (!isNaN(t1) && !isNaN(t2)) {
+                                if (t2 - t1 > 45 * 60 * 1000) continue; // Skip lines > 45 min gap
+                            }
+
+                            segments.push({
+                                id: `seg-${segId++}`,
+                                positions: [[Number(p1.lat), Number(p1.lon)], [Number(p2.lat), Number(p2.lon)]],
+                                color: COLOR_MAP[(p1.color || '').toLowerCase()] || '#cbd5e1',
+                                rating: p1.rating,
+                                speed: p1.speed,
+                                rideId: rideId,
+                                timestamp: p1.timestamp
+                            });
+                        }
+                    }
+                });
+
+                setLiveSegments(segments);
+            } catch (e) {
+                console.error('Error fetching checkpoints:', e);
+            }
         };
 
         fetchCheckpoints();
