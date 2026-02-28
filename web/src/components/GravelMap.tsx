@@ -18,8 +18,8 @@ if (typeof window !== 'undefined') {
     });
 }
 
-// Cederberg, South Africa - Gravel Heaven
-const CENTER: [number, number] = [-32.5, 19.2];
+// Cape Town Center
+const CENTER: [number, number] = [-33.9, 18.4];
 
 interface DbCheckpoint {
     id: number;
@@ -27,7 +27,7 @@ interface DbCheckpoint {
     lat: number;
     lon: number;
     rating: number;
-    color: string;
+    color: string | null;
     speed: number;
     gradient: number;
     heading: number;
@@ -94,7 +94,10 @@ export function GravelMap({ onSectorClick, user }: GravelMapProps) {
             }
 
             const rides = new Map<string, DbCheckpoint[]>();
-            data.forEach(cp => {
+            data.forEach((cp: any) => {
+                // filter out 0,0 points as they are invalid
+                if (Number(cp.lat) === 0 && Number(cp.lon) === 0) return;
+
                 if (!rides.has(cp.ride_id)) rides.set(cp.ride_id, []);
                 rides.get(cp.ride_id)!.push(cp);
             });
@@ -106,8 +109,8 @@ export function GravelMap({ onSectorClick, user }: GravelMapProps) {
                 if (checkpoints.length === 1) {
                     segments.push({
                         id: `seg-${segId++}`,
-                        positions: [[checkpoints[0].lat, checkpoints[0].lon], [checkpoints[0].lat + 0.0001, checkpoints[0].lon + 0.0001]],
-                        color: COLOR_MAP[checkpoints[0].color] || '#10b981',
+                        positions: [[Number(checkpoints[0].lat), Number(checkpoints[0].lon)], [Number(checkpoints[0].lat) + 0.0001, Number(checkpoints[0].lon) + 0.0001]],
+                        color: COLOR_MAP[checkpoints[0].color || ''] || '#cbd5e1',
                         rating: checkpoints[0].rating,
                         speed: checkpoints[0].speed,
                         rideId: rideId,
@@ -124,8 +127,8 @@ export function GravelMap({ onSectorClick, user }: GravelMapProps) {
 
                         segments.push({
                             id: `seg-${segId++}`,
-                            positions: [[p1.lat, p1.lon], [p2.lat, p2.lon]],
-                            color: COLOR_MAP[p1.color] || '#10b981',
+                            positions: [[Number(p1.lat), Number(p1.lon)], [Number(p2.lat), Number(p2.lon)]],
+                            color: COLOR_MAP[p1.color || ''] || '#cbd5e1',
                             rating: p1.rating,
                             speed: p1.speed,
                             rideId: rideId,
@@ -277,8 +280,9 @@ export function GravelMap({ onSectorClick, user }: GravelMapProps) {
                     pathOptions={{
                         color: segment.color,
                         weight: 8, // Thicker weight for visibility
-                        opacity: 0.8,
-                        lineCap: 'round'
+                        opacity: 0.9,
+                        lineCap: 'round',
+                        lineJoin: 'round'
                     }}
                     eventHandlers={{
                         click: (e) => {
@@ -289,7 +293,7 @@ export function GravelMap({ onSectorClick, user }: GravelMapProps) {
                             e.target.setStyle({ weight: 12, opacity: 1 }); // Thicker on hover
                         },
                         mouseout: (e) => {
-                            e.target.setStyle({ weight: 8, opacity: 0.8 });
+                            e.target.setStyle({ weight: 8, opacity: 0.9 });
                         }
                     }}
                 >
@@ -297,8 +301,8 @@ export function GravelMap({ onSectorClick, user }: GravelMapProps) {
                         <div className="p-2 min-w-[120px]">
                             <h4 className="text-[10px] font-bold text-white uppercase tracking-wider mb-1">Live Segment</h4>
                             <p className="text-[9px] text-slate-400">
-                                Rating: <span className="text-white font-mono">{segment.rating.toFixed(1)}</span><br />
-                                Speed: <span className="text-white font-mono">{segment.speed.toFixed(1)} km/h</span><br />
+                                Rating: <span className="text-white font-mono">{Number(segment.rating).toFixed(1)}</span><br />
+                                Speed: <span className="text-white font-mono">{Number(segment.speed).toFixed(1)} km/h</span><br />
                                 Logged: <span className="text-white font-mono">{new Date(segment.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
                             </p>
                         </div>
