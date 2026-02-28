@@ -64,6 +64,8 @@ export default function ProfilePage() {
         }
     };
 
+    const ConnectIQStoreURL = "https://apps.garmin.com/"; // General link, can be updated to specific app ID once published
+
     if (loading) return (
         <div className="min-h-screen bg-[#101622] flex items-center justify-center">
             <div className="flex flex-col items-center gap-4">
@@ -74,18 +76,22 @@ export default function ProfilePage() {
     );
 
     return (
-        <div className="min-h-screen bg-[#101622] text-slate-300 py-20 px-6">
-            <div className="max-w-xl mx-auto">
-                <div className="flex items-center justify-between mb-12">
-                    <div>
-                        <h1 className="text-3xl font-bold text-white mb-2">Your Profile</h1>
-                    </div>
-                    <button
-                        onClick={handleSignOut}
-                        className="px-4 py-2 bg-red-500/10 hover:bg-red-500/20 text-red-500 text-xs font-bold rounded-lg transition-all border border-red-500/10"
-                    >
-                        SIGN OUT
-                    </button>
+        <div className="min-h-screen bg-[#101622] text-slate-300 flex flex-col items-center pt-8 pb-12 px-4 overflow-y-auto">
+
+            {/* Top Navigation Bar */}
+            <div className="w-full max-w-sm flex justify-start mb-8">
+                <Link
+                    href="/"
+                    className="flex items-center gap-2 text-xs font-bold text-slate-400 hover:text-white transition-colors bg-white/5 hover:bg-white/10 px-4 py-2 border border-white/5 rounded-xl backdrop-blur-md"
+                >
+                    <span className="material-symbols-outlined text-[16px]">arrow_back</span>
+                    BACK TO MAP
+                </Link>
+            </div>
+
+            <div className="max-w-sm w-full shrink-0">
+                <div className="mb-8 pl-1">
+                    <h1 className="text-3xl font-bold text-white tracking-tight">Your Profile</h1>
                 </div>
 
                 <motion.form
@@ -157,7 +163,7 @@ export default function ProfilePage() {
                                 <div className="space-y-2 mt-2">
                                     <p className="text-xs text-slate-300 font-bold">How to pair:</p>
                                     <ol className="text-xs text-slate-400 space-y-2 list-decimal list-outside ml-4">
-                                        <li>Install the <strong>Gravel Sector</strong> app from the Connect IQ store.</li>
+                                        <li>Install the <a href={ConnectIQStoreURL} target="_blank" rel="noopener noreferrer" className="text-primary font-bold hover:underline">Gravel Sector</a> app from the Connect IQ store.</li>
                                         <li>Open the <strong>Garmin Connect</strong> app on your smartphone.</li>
                                         <li>Navigate to your Device &gt; Activities &amp; App Management &gt; Data Fields &gt; Gravel Sector &gt; Settings.</li>
                                         <li>Paste your User ID above into the <strong>Gravalist User ID</strong> field and save.</li>
@@ -167,19 +173,23 @@ export default function ProfilePage() {
                         </div>
                     </div>
 
-                    <div className="pt-4 flex gap-4">
+                    <div className="pt-2">
                         <button
                             disabled={updating}
-                            className="flex-1 py-4 bg-primary hover:bg-primary/90 text-white font-bold rounded-xl transition-all shadow-[0_0_20px_rgba(13,89,242,0.3)] disabled:opacity-50"
+                            className="w-full py-4 bg-primary hover:bg-primary/90 text-white font-bold rounded-xl transition-all shadow-[0_0_20px_rgba(13,89,242,0.3)] disabled:opacity-50"
                         >
                             {updating ? 'SAVING...' : 'UPDATE PROFILE'}
                         </button>
-                        <Link
-                            href="/"
-                            className="px-6 py-4 bg-white/5 hover:bg-white/10 text-white font-bold rounded-xl transition-all border border-white/10 flex items-center justify-center"
+                    </div>
+
+                    <div className="pt-6 flex justify-center border-t border-white/5 mt-6">
+                        <button
+                            type="button"
+                            onClick={handleSignOut}
+                            className="text-xs font-bold text-slate-500 hover:text-red-400 transition-colors uppercase tracking-widest"
                         >
-                            MAP
-                        </Link>
+                            Sign Out
+                        </button>
                     </div>
                 </motion.form>
             </div>
