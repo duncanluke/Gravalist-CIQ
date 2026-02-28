@@ -50,19 +50,14 @@ export function AuthButton() {
                         key="login"
                         initial={{ opacity: 0, x: 10 }}
                         animate={{ opacity: 1, x: 0 }}
-                        className="flex items-center gap-2"
+                        className="flex items-center"
                     >
                         <Link
                             href="/login"
-                            className="flex items-center gap-2 px-3 py-2 rounded-xl transition-all duration-300 text-slate-400 hover:text-white active:bg-white/5"
+                            className="flex items-center gap-2 md:gap-3 px-4 md:px-6 py-2 md:py-3.5 rounded-2xl transition-all duration-300 text-slate-500 hover:text-white active:bg-white/5"
                         >
-                            <span className="text-[10px] font-bold uppercase tracking-widest block">Log In</span>
-                        </Link>
-                        <Link
-                            href="/register"
-                            className="flex items-center gap-2 px-4 py-2 bg-primary hover:bg-primary/90 text-white rounded-xl transition-all duration-300 shadow-[0_0_15px_rgba(13,89,242,0.3)]"
-                        >
-                            <span className="text-[10px] font-bold uppercase tracking-widest block">Sign Up</span>
+                            <span className="material-symbols-outlined text-base md:text-xl">person</span>
+                            <span className="text-[9px] md:text-[10px] font-bold uppercase tracking-widest hidden sm:block">Profile</span>
                         </Link>
                     </motion.div>
                 )}

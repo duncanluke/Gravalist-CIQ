@@ -58,8 +58,10 @@ function LoginForm() {
                     </div>
                 )}
 
-
-
+                <div className="flex justify-between items-center px-1">
+                    <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Authentication</span>
+                    <Link href="/register" className="text-[10px] font-bold text-primary hover:text-white transition-colors uppercase tracking-widest">Create Profile</Link>
+                </div>
                 <div className="space-y-2 text-slate-300">
                     <label className="text-[10px] font-bold text-primary uppercase tracking-widest ml-1">Email Address</label>
                     <input
@@ -102,7 +104,19 @@ function LoginForm() {
 export default function LoginPage() {
     return (
         <div className="fixed inset-0 bg-[#101622] overflow-y-auto custom-scrollbar z-50 bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-primary/10 via-transparent to-transparent">
-            <div className="min-h-full flex items-center justify-center p-6 w-full">
+            <div className="min-h-full flex flex-col items-center pt-8 pb-12 px-4 w-full">
+
+                {/* Top Navigation Bar */}
+                <div className="w-full max-w-sm flex justify-start mb-8">
+                    <Link
+                        href="/"
+                        className="flex items-center gap-2 text-xs font-bold text-slate-400 hover:text-white transition-colors bg-white/5 hover:bg-white/10 px-4 py-2 border border-white/5 rounded-xl backdrop-blur-md"
+                    >
+                        <span className="material-symbols-outlined text-[16px]">arrow_back</span>
+                        BACK TO MAP
+                    </Link>
+                </div>
+
                 <Suspense fallback={
                     <div className="flex flex-col items-center gap-4">
                         <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
