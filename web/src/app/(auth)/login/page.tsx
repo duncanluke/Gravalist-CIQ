@@ -101,15 +101,17 @@ function LoginForm() {
 
 export default function LoginPage() {
     return (
-        <div className="min-h-screen bg-[#101622] flex items-center justify-center p-6 bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-primary/10 via-transparent to-transparent">
-            <Suspense fallback={
-                <div className="flex flex-col items-center gap-4">
-                    <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
-                    <p className="text-slate-500 font-mono text-xs uppercase tracking-widest">Initializing...</p>
-                </div>
-            }>
-                <LoginForm />
-            </Suspense>
+        <div className="fixed inset-0 bg-[#101622] overflow-y-auto custom-scrollbar z-50 bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-primary/10 via-transparent to-transparent">
+            <div className="min-h-full flex items-center justify-center p-6 w-full">
+                <Suspense fallback={
+                    <div className="flex flex-col items-center gap-4">
+                        <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+                        <p className="text-slate-500 font-mono text-xs uppercase tracking-widest">Initializing...</p>
+                    </div>
+                }>
+                    <LoginForm />
+                </Suspense>
+            </div>
         </div>
     );
 }
